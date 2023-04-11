@@ -1,0 +1,13 @@
+<div *ngFor="let category of menuCategories">
+  <h1>{{category.name}}</h1>
+  <ul>
+    <li *ngFor="let item of category.items">
+      {{item.name}}
+    </li>
+  </ul>
+</div>
+
+
+<div *ngFor="let item of filteredMenuItems">
+  <h1>{{item.name}}</h1>
+</div>
