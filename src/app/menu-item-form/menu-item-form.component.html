@@ -1,0 +1,24 @@
+<form [formGroup]="menuItemForm" (ngSubmit)="onSubmit()">
+  <label for="name">Name:</label>
+  <input type="text" id="name" formControlName="name" />
+
+  <label for="categoryId">Category:</label>
+  <select id="categoryId" formControlName="categoryId">
+    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+  </select>
+
+  <label for="studentDormId">Student Dorm:</label>
+  <select id="studentDormId" formControlName="studentDormId">
+    <option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.dormName }}</option>
+  </select>
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" formControlName="date" />
+
+  <label for="startTime">Start Time:</label>
+  <input type="time" id="startTime" formControlName="startTime" />
+
+  <label for="endTime">End Time:</label>
+  <input type="time" id ="endTime" formControlName="endTime" />
+  <button type="submit">Create</button>
+</form>

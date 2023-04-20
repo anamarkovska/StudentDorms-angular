@@ -1,0 +1,22 @@
+<nav>
+  <ul>
+    <li *ngFor="let dorm of studentDorms">
+      <a [routerLink]="['/menu/student-dorm', dorm.id]" routerLinkActive="active">{{dorm.dormName}}</a>
+    </li>
+  </ul>
+</nav>
+
+
+<div *ngFor="let category of menuCategories">
+  <h2>{{ category.name }}</h2>
+  <div *ngFor="let item of menuItems">
+    <div *ngIf="item.category.id === category.id">
+      <div>{{ item.name }}</div>
+      <div>{{item.startTime}}</div>
+      <div>{{item.endTime}}</div>
+      <button [routerLink]="['/menu/edit', item.id]" routerLinkActive="active">Edit</button>
+      <button (click)="deleteMenuItem(item.id)">Delete</button> 
+    </div>
+    </div>
+  </div>
+<button> <a [routerLink]="['/menu/create']" routerLinkActive="active">Create</a><button>
