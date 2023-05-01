@@ -18,12 +18,13 @@ export class MenuItemUpdateComponent implements OnInit {
   submitted = false;
   categories: MenuCategory[] = [];
   dorms: StudentDorm[] = [];
+  id: number | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
     private menuItemService: MenuItemService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { 
     this.menuItemForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -36,9 +37,12 @@ export class MenuItemUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.menuItemService.getMenuItemById(Number(id)).subscribe((menuItem: MenuItem) => {
+    this.route.paramMap.subscribe(params => {
+      this.id = +params.get('id')!!;
+    });
+    // const id = this.route.snapshot.paramMap.get('id');
+    if(this.id) {
+      this.menuItemService.getMenuItemById(Number(this.id)).subscribe((menuItem: MenuItem) => {
         this.menuItem = menuItem;
         this.menuItemForm = this.formBuilder.group({
           name: [menuItem.name, Validators.required],
@@ -73,7 +77,7 @@ export class MenuItemUpdateComponent implements OnInit {
     
     this.menuItemService.updateMenuItem(menuItem.id, menuItem).subscribe(() => {
       console.log('Menu item updated successfully!');
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/menu'])
     }, error => {
       console.error(error);
     });

@@ -5,11 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MenuItemFormComponent } from './menu-item-form/menu-item-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenuItemUpdateComponent } from './menu-item-update/menu-item-update.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './security/AuthInterceptor';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { AppBackgroundComponent } from './app-background/app-background.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +22,9 @@ import { MenuItemUpdateComponent } from './menu-item-update/menu-item-update.com
     MenuItemComponent,
     MenuItemFormComponent,
     MenuItemUpdateComponent,
+    RegisterComponent,
+    LoginComponent,
+    AppBackgroundComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,10 +32,14 @@ import { MenuItemUpdateComponent } from './menu-item-update/menu-item-update.com
     HttpClientModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
-    
+    ReactiveFormsModule,
   ],
-  providers: [],
+  
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    JwtHelperService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

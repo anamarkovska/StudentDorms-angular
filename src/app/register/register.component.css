@@ -1,0 +1,107 @@
+/* .background {
+  background-image: url("https://makfax.com.mk/wp-content/uploads/2017/06/Studentski-dom-Goce-Delcev.jpg");
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+} */
+/* Container styling */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Helvetica, sans-serif;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container form {
+    margin-top: 20px;
+  }
+  
+  .container form .form-group {
+    margin-bottom: 20px;
+  }
+  
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 40px;
+    color: #333;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
+      0 1px 1px rgba(128, 128, 128, 0.155),
+      0 2.1px 2.1px rgba(128, 128, 128, 0.195),
+      0 4.4px 4.4px rgba(128, 128, 128, 0.241),
+      0 12px 12px rgba(128, 128, 128, 0.35);
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Label styling */
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  
+  /* Input styling */
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  }
+  
+  /* Input focus styling */
+  .form-control:focus {
+    border-color: #4d90fe;
+    outline: none;
+    box-shadow: 0 0 8px 0 rgba(77, 144, 254, 0.5);
+  }
+  
+  /* Submit button styling */
+  .btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    color: #fff;
+    background-color: #4d90fe;
+    border-color: #4d90fe;
+    border-radius: 4px;
+    transition: all ease-in-out 0.15s;
+    cursor: pointer;
+  }
+  
+  /* Submit button hover styling */
+  .btn-primary:hover {
+    background-color: #357ae8;
+    border-color: #357ae8;
+  }

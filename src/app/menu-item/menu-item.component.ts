@@ -15,11 +15,16 @@ export class MenuItemComponent implements OnInit {
   menuCategories: MenuCategory[] = [];
   studentDormId: number | undefined;
   studentDorms : StudentDorm[] = []
-  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute) {}
+  selectedDormId: number = 1;
 
+  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute) {}
+  onDormClick(dormId: number): void {
+    this.selectedDormId = dormId;
+    this.loadMenuData();
+  }
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.studentDormId = +params.get('id')!!;
+      this.selectedDormId = +params.get('id')!!;
       this.loadMenuData();
     });
     this.menuItemService.getAllCategories().subscribe((categories: MenuCategory[]) => {
@@ -31,7 +36,7 @@ export class MenuItemComponent implements OnInit {
   }
 
   loadMenuData(): void {
-    this.menuItemService.getMenuItemsByStudentDorm(this.studentDormId!!)
+    this.menuItemService.getMenuItemsByStudentDorm(this.selectedDormId!!)
       .subscribe((items: MenuItem[]) => {
         this.menuItems = items;
       });

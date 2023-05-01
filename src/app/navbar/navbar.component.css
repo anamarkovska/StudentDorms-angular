@@ -2,6 +2,11 @@ nav {
     background-color: #f8f8f8;
     padding: 20px;
   }
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333;
+  }
   
   ul {
     list-style-type: none;

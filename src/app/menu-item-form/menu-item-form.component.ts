@@ -5,6 +5,7 @@ import { StudentDorm } from '../domain/student-dorm';
 import { MenuItemService } from '../menu.service';
 import { MenuItem } from '../domain/menu-item';
 import { menuItemDto } from '../domain/menuItemDto';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-item-form',
@@ -18,7 +19,9 @@ export class MenuItemFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private menuItemService: MenuItemService
+    private menuItemService: MenuItemService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.menuItemForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -46,6 +49,9 @@ export class MenuItemFormComponent implements OnInit {
     this.menuItemService.getAllStudentDorms().subscribe(dorms => {
       this.dorms = dorms;
     });
+  }
+  onCancel(): void {
+    this.router.navigate(['/menu']);
   }
 
   onSubmit(): void {

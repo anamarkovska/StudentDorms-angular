@@ -10,7 +10,7 @@ import { menuItemDto } from './domain/menuItemDto';
   providedIn: 'root'
 })
 export class MenuItemService {
-  private apiUrl = 'http://localhost:8080/menu';
+  private apiUrl = 'http://localhost:8080/api/menu';
 
   constructor(private http: HttpClient) { }
 

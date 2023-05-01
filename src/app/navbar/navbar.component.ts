@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StudentDorm } from '../domain/student-dorm';
 import { MenuItemService } from '../menu.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,10 +14,13 @@ export class NavbarComponent implements OnInit {
 
   studentDorms: StudentDorm[] = [];
 
-  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private router: Router,private authService: UserService) { }
 
   selectedDorm: string | undefined;
 
+  getAuthService(): UserService {
+    return this.authService;
+  }
   ngOnInit() {
     this.getAllStudentDorms();
   }
@@ -33,10 +37,8 @@ export class NavbarComponent implements OnInit {
         }
       );
   }
-
-  onDormSelected() {
-    if (this.selectedDorm) {
-      this.router.navigate(['/menu/student-dorm', this.selectedDorm]);
-    }
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
