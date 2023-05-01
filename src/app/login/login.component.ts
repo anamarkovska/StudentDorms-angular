@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(user).subscribe((result) => {
       localStorage.setItem('token', result.token);
       console.log(result.token)
-      this.router.navigate(['/menu']);
+      this.router.navigate(['menu/student-dorm']);
       // Handle successful login
     }, (error) => {
       // Handle login error
