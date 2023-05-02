@@ -9,8 +9,8 @@
   </button>
 </nav>
 
-<div class="container">
-  <div *ngFor="let category of menuCategories">
+<div class="container d-flex flex-wrap">
+  <div *ngFor="let category of menuCategories" class="col-md-4">
     <h2>{{ category.name }}</h2>
     <div class="row menu-items-container" *ngFor="let item of menuItems">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.category.id === category.id">
@@ -42,4 +42,4 @@
       </div>
     </div>
   </div>
-
+</div>
