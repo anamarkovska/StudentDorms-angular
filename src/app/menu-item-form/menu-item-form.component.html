@@ -20,7 +20,7 @@
 
   <label for="endTime">End Time:</label>
   <input type="time" id ="endTime" formControlName="endTime" />
-  <button type="submit">Create</button>
+  <button (click)="onSubmit()" type="submit">Create</button>
   <button (click)="onCancel()">Back</button>
 
 </form>

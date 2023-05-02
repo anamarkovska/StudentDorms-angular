@@ -67,6 +67,7 @@ export class MenuItemFormComponent implements OnInit {
       this.menuItemService.createMenuItem(menuItem).subscribe(() => {
         // Handle success
         console.log('Menu item created!');
+        this.router.navigate(['/menu'])
       }, error => {
         // Handle error
         console.error(error);
