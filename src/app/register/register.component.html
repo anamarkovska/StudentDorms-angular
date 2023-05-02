@@ -1,3 +1,4 @@
+<div class="d-flex justify-content-center align-items-center">
 <div class="background">
   <div class="container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form card p-4">
@@ -21,10 +22,11 @@
         <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
         <div *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)" class="text-danger">
           <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required.</div>
-          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords do not match.</div>   
+          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords do not match.</div>
         </div>
       </div>
       <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
     </form>
   </div>
+</div>
 </div>

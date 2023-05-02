@@ -1,4 +1,4 @@
-nav {
+/* nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,19 +32,13 @@ nav ul li.active a {
   color: #f39c12;
 }
 
+
 .menu-container {
   margin-top: 70px;
   color: #fff;
   position: fixed;
 }
 
-.menu-container h2 {
-  color: #fff;
-  font-size: 24px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #f39c12;
-  padding-bottom: 5px;
-}
 
 .menu-items-container {
   margin-bottom: 20px;
@@ -55,6 +49,7 @@ nav ul li.active a {
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+  width:150%;
 }
 
 .item-name {
@@ -138,3 +133,142 @@ button a.active {
   color: #fff;
   margin-top: 70px;
 }
+
+.menu-container h2 {
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
+  border-bottom: 1px solid #f39c12;
+  padding-bottom: 5px;
+} */
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  top: 100px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+nav a.active {
+  color: #f39c12;
+}
+
+nav button {
+  background-color: #f39c12;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+}
+
+nav button a {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav button a.active {
+  color: #fff;
+}
+
+.menu-container {
+  margin-top: 70px;
+  color: #fff;
+  position: fixed;
+  width: 100%;
+}
+
+.menu-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  margin-top:10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width:180%;
+}
+
+.item-name {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.item-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-time {
+  margin-right: 10px;
+}
+
+.item-time-label {
+  color: yellow;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.item-time-value {
+  color: #f39c12;
+  font-size: 16px;
+}
+
+.item-actions {
+  margin-top: 10px;
+}
+
+.item-actions button {
+  background-color: #f39c12;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.item-actions button.active {
+  background-color: #34495e;
+}
+
+.item-actions a {
+  background-color: #f39c12;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  margin-right: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item-actions a.active {
+  background-color: #34495e;
+}
+
+.container{
+  color: #fff;
+  margin-top: 70px;
+}
+
+.container h2 {
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
+  border-bottom: 1px solid #f39c12;
+  padding-bottom: 5px;
+}
+
+

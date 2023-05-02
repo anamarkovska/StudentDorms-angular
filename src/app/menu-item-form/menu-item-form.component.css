@@ -1,29 +1,63 @@
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  select,
-  input[type="date"],
-  input[type="time"] {
-    margin-bottom: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  width: 400px;
+  box-shadow: 0px 0px 10px #ddd;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+input,
+select {
+  background-color: white;
+  color: black;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form select,
+form input[type="date"],
+form input[type="time"] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+label {
+  color: white;
+}
+
+button {
+  background-color: orange;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin:5px;
+}
+
+button:hover {
+  background-color: #ff6600;
+}
