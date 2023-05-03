@@ -7,6 +7,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard';
 import { AuthGuardLogin } from './auth-login-guard';
+import { EducationComponent } from './education/education.component';
+import { NightLifeComponent } from './night-life/night-life.component';
 
 
 const routes: Routes = [
@@ -17,7 +19,9 @@ const routes: Routes = [
   { path: 'menu/create', component: MenuItemFormComponent, canActivate: [AuthGuard]},
   { path: 'menu/edit/:id', component: MenuItemUpdateComponent, canActivate: [AuthGuard]},
   { path: 'register', component: RegisterComponent},
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuardLogin]}
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuardLogin]},
+  { path: 'education/:id', component: EducationComponent, canActivate: [AuthGuard]},
+  { path: 'night-life/:id', component: NightLifeComponent, canActivate: [AuthGuard]}
 ];
 
 

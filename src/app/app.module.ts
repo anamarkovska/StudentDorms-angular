@@ -15,6 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './security/AuthInterceptor';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { AppBackgroundComponent } from './app-background/app-background.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { EducationComponent } from './education/education.component';
+import { NightLifeComponent } from './night-life/night-life.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +28,9 @@ import { AppBackgroundComponent } from './app-background/app-background.componen
     RegisterComponent,
     LoginComponent,
     AppBackgroundComponent,
+    PostListComponent,
+    EducationComponent,
+    NightLifeComponent,
   ],
   imports: [
     BrowserModule,
