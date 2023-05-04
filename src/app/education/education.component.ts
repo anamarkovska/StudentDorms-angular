@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post-service';
 import { PostCreationDto } from '../domain/post-creation-dto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Post } from '../domain/post';
+import { CommentService } from '../comment.service';
+import { CommentDto } from '../domain/comment-dto';
 
 @Component({
   selector: 'app-education',
@@ -12,14 +16,22 @@ import { ActivatedRoute } from '@angular/router';
 export class EducationComponent implements OnInit {
   postForm: FormGroup;
   categoryId: number | undefined;
+  posts: Post[] = [];
+  commentForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private commentService: CommentService,
+    private router: Router
   ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
+      content: ['', Validators.required]
+    });
+    this.commentForm = this.formBuilder.group({
       content: ['', Validators.required]
     });
   }
@@ -29,9 +41,13 @@ export class EducationComponent implements OnInit {
       title: ['', Validators.required],
       content: ['', Validators.required]
     });
+    this.commentForm = this.formBuilder.group({
+      content: ['', Validators.required]
+    });
     this.route.paramMap.subscribe(params => {
       this.categoryId = +params.get('id')!;
     });
+    this.getPostsByCategory()
   }
 
   onSubmit(): void {
@@ -54,5 +70,28 @@ export class EducationComponent implements OnInit {
     } else {
       console.error('Category ID is undefined');
     }
+  }
+
+
+  comment(postId:number) {
+    const comment = this.commentForm.value;
+    this.commentService.addComment(postId, comment).subscribe(
+      (newComment) => {
+        console.log('Comment added:', newComment);
+        this.commentForm.reset();
+        this.router.navigate(['/education/2']);
+      },
+      (error) => {
+        console.error('Failed to add comment:', error);
+        // Handle the error, such as displaying an error message
+      }
+    );
+  }
+
+  getPostsByCategory():void{
+    this.postService.getPostsByCategory(this.categoryId!!)
+      .subscribe((items: Post[]) => {
+        this.posts = items;
+      });
   }
 }
