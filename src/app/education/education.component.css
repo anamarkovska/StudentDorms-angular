@@ -1,0 +1,139 @@
+/* Styles for the form */
+form {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+form button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+form button[type="submit"]:hover {
+  background-color: #0062cc;
+}
+
+/* Styles for the comments section */
+.comments {
+  margin-top: 20px;
+}
+
+.comment {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.comment p {
+  margin-bottom: 10px;
+}
+
+.comment span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment small {
+  font-size: 12px;
+}
+
+.comment:last-child {
+  margin-bottom: 0;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-text {
+  margin-bottom: 1rem;
+}
+
+.btn-link {
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+hr {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  border-radius: 0;
+}
+
+.card-footer {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#post-form {
+  max-width: 400px;
+  margin: auto;
+}
+
+#comment-btn {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+#comment-btn:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+#comment-form {
+  margin-top: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
