@@ -22,6 +22,7 @@
           <h5 class="card-title">{{ post.title }}</h5>
           <p class="card-text">{{ post.content }}</p>
           <p class="card-text">Author: {{ post.userDto?.username }}</p>
+          <button (click)="deletePost(post.id)">Delete</button>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <button id="comment-btn" (click)="showComments = !showComments" class="btn btn-secondary btn-sm">{{ showComments ? 'Hide comments' : 'Show comments' }}</button>
@@ -53,6 +54,7 @@
               <li *ngFor="let comment of post.comments" class="my-3">
                 <div class="d-flex justify-content-between">
                   <p class="mb-0">{{ comment.content }}</p>
+                  <button (click)="deleteComment(comment.id)">Delete</button>
                   <small class="text-muted">Author: {{ comment.userDto?.username }}</small>
                 </div>
               </li>

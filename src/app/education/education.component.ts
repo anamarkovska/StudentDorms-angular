@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post-service';
 import { PostCreationDto } from '../domain/post-creation-dto';
@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Post } from '../domain/post';
 import { CommentService } from '../comment.service';
 import { CommentDto } from '../domain/comment-dto';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-education',
@@ -26,14 +27,14 @@ export class EducationComponent implements OnInit {
   likeCounts: { [postId: number]: number } = {};
 
 
-
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
     private route: ActivatedRoute,
     private http: HttpClient,
     private commentService: CommentService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -47,10 +48,10 @@ export class EducationComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.categoryId = +params.get('id')!;
-      this.getPostsByCategory();
-      this.getLikesForAllPosts();
-      this.posts.forEach(post => {
-        this.loadLikeCount(post.id);
+      Promise.all([this.getPostsByCategory(), this.getLikesForAllPosts()]).then(() => {
+        this.posts.forEach(post => {
+          this.loadLikeCount(post.id);
+        });
       });
     });
   }
@@ -84,16 +85,21 @@ export class EducationComponent implements OnInit {
     this.commentService.addComment(postId, comment).subscribe(
       (newComment) => {
         console.log('Comment added:', newComment);
-        this.commentForm.reset();
-        this.router.navigate(['/education/2']);
-        this.showComments = true; // set showComments to true after a new comment is added
+        const index = this.posts.findIndex(post => post.id === postId);
+        if (index > -1) {
+          this.posts[index].comments.push(newComment);
+          this.commentForm.reset();
+          this.showComments = true;
+          // this.cdr.detectChanges(); // trigger change detection to update the view
+        }
       },
       (error) => {
         console.error('Failed to add comment:', error);
-        // Handle the error, such as displaying an error message
       }
     );
   }
+
+
 
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
@@ -162,6 +168,40 @@ export class EducationComponent implements OnInit {
       this.likeCounts[postId] = count;
     });
   }
+
+  deleteComment(commentId: number): void {
+    this.commentService.deleteComment(commentId).subscribe(
+      response => {
+        // handle success response
+        console.log('Comment deleted successfully!');
+        // Refresh the posts after deleting the comment
+        this.getPostsByCategory();
+      },
+      error => {
+        // handle error response
+        console.error('Error deleting comment:', error);
+      }
+    );
+  }
+
+  deletePost(postId: number): void {
+    this.postService.deletePost(postId).subscribe(
+      response => {
+        // handle success response
+        console.log('Post deleted successfully!');
+        // Refresh the posts after deleting the post
+        this.getPostsByCategory();
+      },
+      error => {
+        // handle error response
+        console.error('Error deleting post:', error);
+      }
+    );
+  }
+
+
+
+
 
 }
 

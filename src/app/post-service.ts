@@ -41,4 +41,9 @@ export class PostService {
   deleteLike(postId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${postId}/likes/delete`);
   }
+
+  deletePost(postId: number) {
+    return this.http.delete(`${this.apiUrl}/${postId}/delete`);
+  }
+
 }

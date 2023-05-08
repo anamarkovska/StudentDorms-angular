@@ -9,5 +9,5 @@ export interface Post {
   userDto?: UserDto;
   likedBy?: UserDto[];
   postCategoryDto?: PostCategoryDto;
-  comments?: CommentDto[];
+  comments: CommentDto[];
 }

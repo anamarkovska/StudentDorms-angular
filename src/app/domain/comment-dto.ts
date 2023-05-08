@@ -1,7 +1,7 @@
 import { UserDto } from "./user-dto";
 
 export interface CommentDto {
-  id?: number;
+  id: number;
   content: string;
   userDto?: UserDto;
 }
