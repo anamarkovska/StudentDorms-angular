@@ -25,4 +25,20 @@ export class PostService {
     const url = `${this.apiUrl}/${postId}`;
     return this.http.post<Comment>(url, comment);
   }
+
+  createLike(postId: number) {
+    return this.http.post(`${this.apiUrl}/${postId}/like`, {});
+  }
+
+  getNumberOfLikes(postId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${postId}/likes`);
+  }
+
+  getUsernamesFromPostLikes(postId: number): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/${postId}/likes/usernames`);
+  }
+
+  deleteLike(postId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${postId}/likes/delete`);
+  }
 }
