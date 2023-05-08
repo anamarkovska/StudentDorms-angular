@@ -18,6 +18,7 @@ import { AppBackgroundComponent } from './app-background/app-background.componen
 import { PostListComponent } from './post-list/post-list.component';
 import { EducationComponent } from './education/education.component';
 import { NightLifeComponent } from './night-life/night-life.component';
+import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { NightLifeComponent } from './night-life/night-life.component';
     PostListComponent,
     EducationComponent,
     NightLifeComponent,
+    StudentDormListComponent,
   ],
   imports: [
     BrowserModule,
