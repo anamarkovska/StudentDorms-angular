@@ -45,5 +45,8 @@ export class PostService {
   deletePost(postId: number) {
     return this.http.delete(`${this.apiUrl}/${postId}/delete`);
   }
+  hasLikedPost(postId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/${postId}/hasLiked`);
+  }
 
 }

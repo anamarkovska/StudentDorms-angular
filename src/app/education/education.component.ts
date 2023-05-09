@@ -19,13 +19,14 @@ export class EducationComponent implements OnInit {
   categoryId: number | undefined;
   posts: Post[] = [];
   commentForm: FormGroup;
-  showComments = false;
+  showCommentsMap: { [postId: number]: boolean } = {};
   likeCount!: number;
   likedUsernames: String[]=[]
   showLikesModal=false;
   likedPosts: number[] = [];
   likeCounts: { [postId: number]: number } = {};
-
+  isLiked: { [postId: number]: boolean } = {};
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,12 +49,9 @@ export class EducationComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.categoryId = +params.get('id')!;
-      Promise.all([this.getPostsByCategory(), this.getLikesForAllPosts()]).then(() => {
-        this.posts.forEach(post => {
-          this.loadLikeCount(post.id);
-        });
-      });
+       Promise.all([this.getPostsByCategory()])
     });
+    
   }
 
   onSubmit(): void {
@@ -80,6 +78,8 @@ export class EducationComponent implements OnInit {
     }
   }
 
+  
+
   comment(postId: number) {
     const comment = this.commentForm.value;
     this.commentService.addComment(postId, comment).subscribe(
@@ -89,7 +89,7 @@ export class EducationComponent implements OnInit {
         if (index > -1) {
           this.posts[index].comments.push(newComment);
           this.commentForm.reset();
-          this.showComments = true;
+          this.showCommentsMap[postId] = true;
           // this.cdr.detectChanges(); // trigger change detection to update the view
         }
       },
@@ -104,8 +104,19 @@ export class EducationComponent implements OnInit {
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
       this.posts = items;
+      this.posts.forEach(post => {
+        this.loadLikeCount(post.id);
+        this.getLikedUsernames(post.id);
+        this.showCommentsMap[post.id] = false;
+        this.postService
+        .hasLikedPost(post.id)
+        .subscribe((isLiked: boolean) => {
+          this.isLiked[post.id] = isLiked;
+        });
+      });
     });
   }
+  
 
   // loadLikeCount(postId:number) {
   //   this.postService.getNumberOfLikes(postId).subscribe((count) => {
@@ -121,11 +132,12 @@ export class EducationComponent implements OnInit {
 
   showLikes(postId: number) {
     this.postService.getUsernamesFromPostLikes(postId).subscribe((usernames) => {
-      this.likedUsernames = usernames;
+      this.likedUsernames= usernames;
       this.showLikesModal = true;
     });
   }
 
+  
   closeLikesModal() {
     this.showLikesModal = false;
     this.likedUsernames = [];
@@ -134,25 +146,31 @@ export class EducationComponent implements OnInit {
 
   onLike(postId: number) {
     const index = this.likedPosts.findIndex(post => post === postId);
-    if (index > -1) {
-      const likedPost = this.likedPosts[index];
+    const isLiked = this.isLiked[postId] || false;
+    
+    if (isLiked) {
       this.postService.deleteLike(postId).subscribe(() => {
         this.likedPosts.splice(index, 1);
         this.loadLikeCount(postId);
         this.getLikedUsernames(postId);
+        this.isLiked[postId] = false;
       });
     } else {
       this.postService.createLike(postId).subscribe(() => {
         this.likedPosts.push(postId);
         this.loadLikeCount(postId);
         this.getLikedUsernames(postId);
+        this.isLiked[postId] = true;
       });
     }
   }
+  
 
 
   isPostLiked(postId: number): boolean {
-    return this.likedPosts.indexOf(postId) !== -1;
+    return (
+      this.likedPosts.indexOf(postId) !== -1 || this.isLiked[postId] === true
+    );
   }
 
   getLikesForAllPosts(): void {
@@ -168,6 +186,7 @@ export class EducationComponent implements OnInit {
       this.likeCounts[postId] = count;
     });
   }
+  
 
   deleteComment(commentId: number): void {
     this.commentService.deleteComment(commentId).subscribe(
