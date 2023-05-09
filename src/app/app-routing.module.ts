@@ -14,7 +14,7 @@ import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.
 
 const routes: Routes = [
   { path: 'menu/student-dorm/:id', component: MenuItemComponent, canActivate: [AuthGuard] },
-  { path: 'menu/student-dorm', redirectTo: 'menu/student-dorm/1', pathMatch: 'full'}, // default route
+  // { path: 'menu/student-dorm', redirectTo: 'menu/student-dorm/1', pathMatch: 'full'}, // default route
   { path: 'menu', component: StudentDormListComponent, canActivate: [AuthGuard] },
   { path: '', component: StudentDormListComponent, canActivate: [AuthGuard] },
   { path: 'menu/create', component: MenuItemFormComponent, canActivate: [AuthGuard]},

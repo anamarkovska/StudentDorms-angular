@@ -26,7 +26,7 @@ export class EducationComponent implements OnInit {
   likedPosts: number[] = [];
   likeCounts: { [postId: number]: number } = {};
   isLiked: { [postId: number]: boolean } = {};
-  
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,7 +51,7 @@ export class EducationComponent implements OnInit {
       this.categoryId = +params.get('id')!;
        Promise.all([this.getPostsByCategory()])
     });
-    
+
   }
 
   onSubmit(): void {
@@ -78,20 +78,28 @@ export class EducationComponent implements OnInit {
     }
   }
 
-  
+
 
   comment(postId: number) {
     const comment = this.commentForm.value;
     this.commentService.addComment(postId, comment).subscribe(
       (newComment) => {
         console.log('Comment added:', newComment);
-        const index = this.posts.findIndex(post => post.id === postId);
-        if (index > -1) {
-          this.posts[index].comments.push(newComment);
-          this.commentForm.reset();
-          this.showCommentsMap[postId] = true;
-          // this.cdr.detectChanges(); // trigger change detection to update the view
-        }
+        this.commentForm.reset();
+        this.showCommentsMap[postId] = true;
+
+        // Fetch new comments for the post from the server
+        this.commentService.getCommentsByPostId(postId).subscribe(
+          (comments) => {
+            const index = this.posts.findIndex(post => post.id === postId);
+            if (index > -1) {
+              this.posts[index].comments = comments;
+            }
+          },
+          (error) => {
+            console.error('Failed to fetch comments:', error);
+          }
+        );
       },
       (error) => {
         console.error('Failed to add comment:', error);
@@ -104,6 +112,7 @@ export class EducationComponent implements OnInit {
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
       this.posts = items;
+      this.posts = this.posts.reverse();
       this.posts.forEach(post => {
         this.loadLikeCount(post.id);
         this.getLikedUsernames(post.id);
@@ -116,7 +125,7 @@ export class EducationComponent implements OnInit {
       });
     });
   }
-  
+
 
   // loadLikeCount(postId:number) {
   //   this.postService.getNumberOfLikes(postId).subscribe((count) => {
@@ -137,7 +146,7 @@ export class EducationComponent implements OnInit {
     });
   }
 
-  
+
   closeLikesModal() {
     this.showLikesModal = false;
     this.likedUsernames = [];
@@ -147,7 +156,7 @@ export class EducationComponent implements OnInit {
   onLike(postId: number) {
     const index = this.likedPosts.findIndex(post => post === postId);
     const isLiked = this.isLiked[postId] || false;
-    
+
     if (isLiked) {
       this.postService.deleteLike(postId).subscribe(() => {
         this.likedPosts.splice(index, 1);
@@ -164,7 +173,7 @@ export class EducationComponent implements OnInit {
       });
     }
   }
-  
+
 
 
   isPostLiked(postId: number): boolean {
@@ -186,15 +195,16 @@ export class EducationComponent implements OnInit {
       this.likeCounts[postId] = count;
     });
   }
-  
 
-  deleteComment(commentId: number): void {
+
+  deleteComment(commentId: number, postId:number): void {
     this.commentService.deleteComment(commentId).subscribe(
       response => {
         // handle success response
         console.log('Comment deleted successfully!');
         // Refresh the posts after deleting the comment
         this.getPostsByCategory();
+        this.showCommentsMap[postId]=true
       },
       error => {
         // handle error response

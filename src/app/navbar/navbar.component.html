@@ -6,7 +6,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/education',2]" routerLinkActive="active">Education</a>
       </li>
@@ -24,6 +24,9 @@
       </li>
       <li class="nav-item" *ngIf="!getAuthService().isAuthenticated()">
         <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+      </li>
+      <li class="nav-item" *ngIf="getAuthService().isAuthenticated()" id="loggedUser">
+        <span class="nav-link">{{loggedInUser}}</span>
       </li>
     </ul>
   </div>

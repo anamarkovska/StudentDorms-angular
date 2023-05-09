@@ -16,6 +16,7 @@ export class MenuItemFormComponent implements OnInit {
   menuItemForm: FormGroup;
   categories: MenuCategory[] = [];
   dorms: StudentDorm[] = [];
+  studentDormId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,12 +68,13 @@ export class MenuItemFormComponent implements OnInit {
       this.menuItemService.createMenuItem(menuItem).subscribe(() => {
         // Handle success
         console.log('Menu item created!');
-        this.router.navigate(['/menu'])
+        console.log(menuItem.studentDormId)
+        this.router.navigate(['/menu','student-dorm',menuItem.studentDormId])
       }, error => {
         // Handle error
         console.error(error);
       });
     }
   }
-  
+
 }

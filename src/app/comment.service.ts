@@ -22,4 +22,9 @@ export class CommentService {
     return this.http.delete<Comment>(url);
   }
 
+  getCommentsByPostId(postId: number): Observable<CommentDto[]> {
+    const url = `${this.apiUrl}/${postId}`;
+    return this.http.get<CommentDto[]>(url);
+  }
+
 }

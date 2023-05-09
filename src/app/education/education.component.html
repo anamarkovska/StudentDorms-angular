@@ -54,7 +54,7 @@
               <li *ngFor="let comment of post.comments" class="my-3">
                 <div class="d-flex justify-content-between">
                   <p class="mb-0">{{ comment.content }}</p>
-                  <button (click)="deleteComment(comment.id)">Delete</button>
+                  <button (click)="deleteComment(comment.id,post.id)">Delete</button>
                   <small class="text-muted">Author: {{ comment.userDto?.username }}</small>
                 </div>
               </li>

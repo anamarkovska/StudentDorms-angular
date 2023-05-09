@@ -19,13 +19,14 @@ export class MenuItemUpdateComponent implements OnInit {
   categories: MenuCategory[] = [];
   dorms: StudentDorm[] = [];
   id: number | undefined;
+  studentDormId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private menuItemService: MenuItemService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { 
+  ) {
     this.menuItemForm = this.formBuilder.group({
       name: ['', Validators.required],
       categoryId: [null, Validators.required],
@@ -56,7 +57,7 @@ export class MenuItemUpdateComponent implements OnInit {
       this.menuItemService.getAllCategories().subscribe(categories => {
         this.categories = categories;
       });
-  
+
       this.menuItemService.getAllStudentDorms().subscribe(dorms => {
         this.dorms = dorms;
       });
@@ -74,10 +75,10 @@ export class MenuItemUpdateComponent implements OnInit {
     if (this.menuItem && typeof this.menuItem.id === 'number') {
       menuItem.id = this.menuItem.id;
     }
-    
+
     this.menuItemService.updateMenuItem(menuItem.id, menuItem).subscribe(() => {
       console.log('Menu item updated successfully!');
-      this.router.navigate(['/menu'])
+      this.router.navigate(['/menu','student-dorm',menuItem.studentDormId])
     }, error => {
       console.error(error);
     });
@@ -86,4 +87,5 @@ export class MenuItemUpdateComponent implements OnInit {
   onCancel(): void {
     this.router.navigate(['/menu']);
   }
+
 }

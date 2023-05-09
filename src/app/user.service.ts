@@ -3,6 +3,7 @@ import {  userRequest } from './domain/userRequest';
 import { Observable, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserDto } from './domain/user-dto';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class UserService {
   constructor(private http: HttpClient,
     private jwtHelper: JwtHelperService) { }
   register(user: userRequest): Observable<userRequest> {
-    return this.http.post<userRequest>(`${this.apiUrl}/register`, user); 
+    return this.http.post<userRequest>(`${this.apiUrl}/register`, user);
   }
 
     login(user: userRequest): Observable<any> { {
@@ -31,5 +32,10 @@ export class UserService {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
   }
+
+  getAuthenticatedUser(): Observable<UserDto> {
+    return this.http.get<UserDto>(`${this.apiUrl}/authenticated-user`);
+  }
+
 }
 
