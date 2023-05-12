@@ -2,7 +2,7 @@
     background-image: url("https://makfax.com.mk/wp-content/uploads/2017/06/Studentski-dom-Goce-Delcev.jpg");
     background-size: cover;
     background-position: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
