@@ -4,6 +4,10 @@
   position: relative;
 }
 
+.container{
+  padding-top: 100px;
+}
+
 .button-container {
   position: absolute;
   bottom: 0;
@@ -164,32 +168,41 @@ h5{
   margin-bottom: 0;
 }
 
-#comments .form-group {
+
+#comment-form .form-group {
   margin-top: 20px;
+
 }
 
-#comments .form-group textarea {
-  resize: none;
-  height: 80px;
+#comment-form textarea {
+  height: 80px; /* Reduce the height of the textarea */
   padding: 10px;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
   border: 1px solid #ccc;
-  padding: 10px;
   margin-bottom: 15px;
+  border-radius: 5px;
+  resize: vertical; /* Allow vertical resizing */
+  transition: border-color 0.2s ease-in-out;
+}
+
+#comment-form textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Change the border color on focus */
 }
 
 #comment-form button {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5;
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
-  padding: 10px 15px;
+  padding: 5px 7px;
   border-radius: 5px;
   cursor: pointer;
 }
+
 
 #comment-form button:hover {
   background-color: #0069d9;
