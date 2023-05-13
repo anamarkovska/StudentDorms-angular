@@ -1,13 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post-service';
 import { PostCreationDto } from '../domain/post-creation-dto';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { Post } from '../domain/post';
 import { CommentService } from '../comment.service';
-import { CommentDto } from '../domain/comment-dto';
-import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { UserDto } from '../domain/user-dto';
 
@@ -24,23 +21,21 @@ export class EducationComponent implements OnInit {
   commentForm: FormGroup;
   showCommentsMap: { [postId: number]: boolean } = {};
   likeCount!: number;
-  likedUsernames: String[]=[]
-  showLikesModal=false;
+  likedUsernames: String[] = []
+  showLikesModal = false;
   likedPosts: number[] = [];
   likeCounts: { [postId: number]: number } = {};
   isLiked: { [postId: number]: boolean } = {};
-  authenticatedUser : UserDto | undefined;
+  authenticatedUser: UserDto | undefined;
   notAuthorized = false;
+  showPostForm = false;
 
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
     private route: ActivatedRoute,
-    private http: HttpClient,
     private commentService: CommentService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
     private userService: UserService
   ) {
     this.postForm = this.formBuilder.group({
@@ -55,12 +50,34 @@ export class EducationComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.categoryId = +params.get('id')!;
-       Promise.all([this.getPostsByCategory()])
+      Promise.all([this.getPostsByCategory()])
     });
     this.userService.getAuthenticatedUser().subscribe(user => {
       this.authenticatedUser = user;
     });
   }
+
+  // onSubmit(): void {
+  //   const post: PostCreationDto = {
+  //     title: this.postForm.value.title,
+  //     content: this.postForm.value.content,
+  //   };
+  //   console.log(this.categoryId);
+  //   if (this.categoryId) {
+  //     this.postService.createPost(post, this.categoryId).subscribe(
+  //       () => {
+  //         console.log('Post created!');
+  //         this.getPostsByCategory();
+  //         this.postForm.reset();
+  //       },
+  //       (error) => {
+  //         console.error(error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error('Category ID is undefined');
+  //   }
+  // }
 
   onSubmit(): void {
     const post: PostCreationDto = {
@@ -71,13 +88,11 @@ export class EducationComponent implements OnInit {
     if (this.categoryId) {
       this.postService.createPost(post, this.categoryId).subscribe(
         () => {
-          // Handle success
           console.log('Post created!');
           this.getPostsByCategory();
           this.postForm.reset();
         },
         (error) => {
-          // Handle error
           console.error(error);
         }
       );
@@ -95,8 +110,6 @@ export class EducationComponent implements OnInit {
         console.log('Comment added:', newComment);
         this.commentForm.reset();
         this.showCommentsMap[postId] = true;
-
-        // Fetch new comments for the post from the server
         this.commentService.getCommentsByPostId(postId).subscribe(
           (comments) => {
             const index = this.posts.findIndex(post => post.id === postId);
@@ -126,20 +139,13 @@ export class EducationComponent implements OnInit {
         this.getLikedUsernames(post.id);
         this.showCommentsMap[post.id] = false;
         this.postService
-        .hasLikedPost(post.id)
-        .subscribe((isLiked: boolean) => {
-          this.isLiked[post.id] = isLiked;
-        });
+          .hasLikedPost(post.id)
+          .subscribe((isLiked: boolean) => {
+            this.isLiked[post.id] = isLiked;
+          });
       });
     });
   }
-
-
-  // loadLikeCount(postId:number) {
-  //   this.postService.getNumberOfLikes(postId).subscribe((count) => {
-  //     this.likeCount = count;
-  //   });
-  // }
 
   getLikedUsernames(postId: number) {
     this.postService.getUsernamesFromPostLikes(postId).subscribe(usernames => {
@@ -149,22 +155,19 @@ export class EducationComponent implements OnInit {
 
   showLikes(postId: number) {
     this.postService.getUsernamesFromPostLikes(postId).subscribe((usernames) => {
-      this.likedUsernames= usernames;
+      this.likedUsernames = usernames;
       this.showLikesModal = true;
     });
   }
-
 
   closeLikesModal() {
     this.showLikesModal = false;
     this.likedUsernames = [];
   }
 
-
   onLike(postId: number) {
     const index = this.likedPosts.findIndex(post => post === postId);
     const isLiked = this.isLiked[postId] || false;
-
     if (isLiked) {
       this.postService.deleteLike(postId).subscribe(() => {
         this.likedPosts.splice(index, 1);
@@ -183,7 +186,6 @@ export class EducationComponent implements OnInit {
   }
 
 
-
   isPostLiked(postId: number): boolean {
     return (
       this.likedPosts.indexOf(postId) !== -1 || this.isLiked[postId] === true
@@ -198,7 +200,7 @@ export class EducationComponent implements OnInit {
     });
   }
 
-  loadLikeCount(postId:number) {
+  loadLikeCount(postId: number) {
     this.postService.getNumberOfLikes(postId).subscribe((count) => {
       this.likeCounts[postId] = count;
     });
@@ -209,13 +211,11 @@ export class EducationComponent implements OnInit {
     this.commentService.deleteComment(commentId).subscribe(
       response => {
         console.log('Comment deleted successfully!');
-        // Remove the deleted comment from the post comments array
         const post = this.posts.find(p => p.id === postId);
         const deletedCommentIndex = post!!.comments.findIndex(c => c.id === commentId);
         if (deletedCommentIndex > -1) {
           post!!.comments.splice(deletedCommentIndex, 1);
         }
-        // Set the showCommentsMap to true for the post
         this.showCommentsMap[postId] = true;
       },
       error => {
@@ -223,21 +223,26 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-  
+
 
   deletePost(postId: number): void {
     this.postService.deletePost(postId).subscribe(
       response => {
-        // handle success response
         console.log('Post deleted successfully!');
-        // Refresh the posts after deleting the post
         this.getPostsByCategory();
       },
       error => {
-        // handle error response
         console.error('Error deleting post:', error);
       }
     );
+  }
+
+  openPostForm(): void {
+    this.showPostForm = true;
+  }
+
+  closePostForm(): void {
+    this.showPostForm = false;
   }
 
 

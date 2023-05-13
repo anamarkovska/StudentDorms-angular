@@ -69,7 +69,7 @@ textarea.form-control {
   font-weight: 300;
   line-height: 1.2;
   color: #555;
-  
+
 }
 
 textarea.form-control::placeholder {
@@ -123,7 +123,7 @@ h5{
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  
+
 }
 #comments {
   /* margin-top: 20px; */
@@ -283,7 +283,23 @@ h5{
   margin-bottom: 0.5rem;
 }
 
+#heart-icon {
+  display: inline-block;
+}
 
+
+.modal-backdrop {
+  filter: blur(5px);
+}
+
+.modal.show .modal-dialog {
+  transform: translate(0);
+}
+
+.modal-dialog {
+  transform: translate(0, -25%);
+  transition: transform 0.3s ease-out;
+}
 /* .comment-form {
   margin-top: 1.5rem;
 }
@@ -296,7 +312,7 @@ h5{
 /* .media {
   position: relative;
 } */
-/* 
+/*
 .comment-list {
   margin-top: 1.5rem;
   margin-bottom: 0;
@@ -347,4 +363,14 @@ h5{
 .comment-meta i {
   margin-right: 0.25rem;
 } */
+
+.post-date {
+  font-size: 0.9rem;
+  color: #999;
+  margin-top: 0.5rem;
+}
+
+
+
+
 

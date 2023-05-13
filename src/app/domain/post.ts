@@ -8,6 +8,7 @@ export interface Post {
   content: string;
   userDto?: UserDto;
   likedBy?: UserDto[];
+  createdAt: Date;
   postCategoryDto?: PostCategoryDto;
   comments: CommentDto[];
 }
