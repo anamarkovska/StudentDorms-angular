@@ -33,7 +33,8 @@
   right: 10px;
   background-color: transparent;
   border: none;
-  color: #999;
+  color: black;
+  z-index: 9999;
 }
 
 
@@ -102,6 +103,85 @@ h5{
   color:white;
 
 
+}
+#comments{
+  background-color: white;
+  color: black;
+  padding: 2px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  
+}
+#comments {
+  /* margin-top: 20px; */
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+
+#comments hr {
+  margin-top: 20px;
+}
+
+#comments h6 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#comments ul li {
+  margin-bottom: 10px;
+}
+
+#comments .media {
+  margin-bottom: 20px;
+}
+
+#comments .media-body {
+  padding: 10px;
+}
+
+#comments .media-body h6 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#comments .media-body p {
+  margin-bottom: 0;
+}
+
+#comments .form-group {
+  margin-top: 20px;
+}
+
+#comments .form-group textarea {
+  resize: none;
+  height: 80px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+#comment-form button {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#comment-form button:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
 }
 
 .card-custom {
@@ -177,17 +257,20 @@ h5{
   margin-bottom: 0.5rem;
 }
 
-.comment-form {
+
+/* .comment-form {
   margin-top: 1.5rem;
 }
 
 .comment-form textarea {
   resize: none;
-}
-.media {
+  margin-right: 4rem;
+  padding: 4px;
+} */
+/* .media {
   position: relative;
-}
-
+} */
+/* 
 .comment-list {
   margin-top: 1.5rem;
   margin-bottom: 0;
@@ -237,5 +320,5 @@ h5{
 
 .comment-meta i {
   margin-right: 0.25rem;
-}
+} */
 

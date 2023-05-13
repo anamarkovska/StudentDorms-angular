@@ -21,8 +21,8 @@ const routes: Routes = [
   { path: 'menu/edit/:id', component: MenuItemUpdateComponent, canActivate: [AuthGuard]},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent, canActivate: [AuthGuardLogin]},
-  { path: 'education/:id', component: EducationComponent, canActivate: [AuthGuard]},
-  { path: 'night-life/:id', component: NightLifeComponent, canActivate: [AuthGuard]}
+  { path: 'forum/:id', component: EducationComponent, canActivate: [AuthGuard]},
+
 ];
 
 

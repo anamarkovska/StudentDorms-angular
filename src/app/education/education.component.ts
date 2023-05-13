@@ -8,6 +8,9 @@ import { Post } from '../domain/post';
 import { CommentService } from '../comment.service';
 import { CommentDto } from '../domain/comment-dto';
 import { Observable } from 'rxjs';
+import { UserService } from '../user.service';
+import { UserDto } from '../domain/user-dto';
+
 
 @Component({
   selector: 'app-education',
@@ -26,6 +29,8 @@ export class EducationComponent implements OnInit {
   likedPosts: number[] = [];
   likeCounts: { [postId: number]: number } = {};
   isLiked: { [postId: number]: boolean } = {};
+  authenticatedUser : UserDto | undefined;
+  notAuthorized = false;
 
 
   constructor(
@@ -35,7 +40,8 @@ export class EducationComponent implements OnInit {
     private http: HttpClient,
     private commentService: CommentService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userService: UserService
   ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -51,7 +57,9 @@ export class EducationComponent implements OnInit {
       this.categoryId = +params.get('id')!;
        Promise.all([this.getPostsByCategory()])
     });
-
+    this.userService.getAuthenticatedUser().subscribe(user => {
+      this.authenticatedUser = user;
+    });
   }
 
   onSubmit(): void {
@@ -197,21 +205,25 @@ export class EducationComponent implements OnInit {
   }
 
 
-  deleteComment(commentId: number, postId:number): void {
+  deleteComment(commentId: number, postId: number): void {
     this.commentService.deleteComment(commentId).subscribe(
       response => {
-        // handle success response
         console.log('Comment deleted successfully!');
-        // Refresh the posts after deleting the comment
-        this.getPostsByCategory();
-        this.showCommentsMap[postId]=true
+        // Remove the deleted comment from the post comments array
+        const post = this.posts.find(p => p.id === postId);
+        const deletedCommentIndex = post!!.comments.findIndex(c => c.id === commentId);
+        if (deletedCommentIndex > -1) {
+          post!!.comments.splice(deletedCommentIndex, 1);
+        }
+        // Set the showCommentsMap to true for the post
+        this.showCommentsMap[postId] = true;
       },
       error => {
-        // handle error response
         console.error('Error deleting comment:', error);
       }
     );
   }
+  
 
   deletePost(postId: number): void {
     this.postService.deletePost(postId).subscribe(
@@ -227,8 +239,6 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-
-
 
 
 

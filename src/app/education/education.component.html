@@ -36,7 +36,7 @@
             <!-- <h5 class="card-title">{{ post.title }}</h5> -->
             <p class="card-text">{{ post.content }}</p>
             <!-- <p class="card-text">Author: {{ post.userDto?.username }}</p> -->
-            <div class="dropdown" ml-auto>
+            <div class="dropdown" ml-auto *ngIf="authenticatedUser?.id === post.userDto?.id">
               <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 ...
@@ -46,71 +46,80 @@
                 <button class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
               </div>
             </div>
+            <div class="wrapper">
+              <div class="button-container">
+                <div class="d-flex justify-content-between align-items-center ">
+                  <div class="btn-group position-relative">
+                    <button id="comment-btn" (click)="showCommentsMap[post.id] = !showCommentsMap[post.id]"
+                      class="btn btn-secondary btn-sm">{{ showCommentsMap[post.id] ? 'Hide comments' : 'Show comments'
+                      }}</button>
+                    <button class="btn btn-primary btn-sm" (click)="onLike(post.id)">
+                      {{ isPostLiked(post.id) ? 'Unlike' : 'Like' }}
+                    </button>
+                  </div>
+                  <span class="likes" (click)="showLikes(post.id)">
+                    <i class="fas fa-heart"></i> {{ likeCounts[post.id] || 0 }}
+                  </span>
 
-            <div class="wrapper">  
-            <div class="button-container">
-              <div class="d-flex justify-content-between align-items-center ">
-                <div class="btn-group position-relative">
-                  <button id="comment-btn" (click)="showCommentsMap[post.id] = !showCommentsMap[post.id]"
-                    class="btn btn-secondary btn-sm">{{ showCommentsMap[post.id] ? 'Hide comments' : 'Show comments'
-                    }}</button>
-                  <button class="btn btn-primary btn-sm" (click)="onLike(post.id)">
-                    {{ isPostLiked(post.id) ? 'Unlike' : 'Like' }}
-                  </button>
-                </div>
-                <span class="likes" (click)="showLikes(post.id)">
-                  <i class="fas fa-heart"></i> {{ likeCounts[post.id] || 0 }}
-                </span>
-
-                <!-- add this to your main template -->
-                <div class="likes-modal" *ngIf="showLikesModal">
-                  <div class="likes-modal-content">
-                    <h2>Likes</h2>
-                    <ul>
-                      <li *ngFor="let username of likedUsernames">{{ username }}</li>
-                    </ul>
-                    <button (click)="closeLikesModal()">Close</button>
+                  <!-- add this to your main template -->
+                  <div class="likes-modal" *ngIf="showLikesModal">
+                    <div class="likes-modal-content">
+                      <h2>Likes</h2>
+                      <ul>
+                        <li *ngFor="let username of likedUsernames">{{ username }}</li>
+                      </ul>
+                      <button (click)="closeLikesModal()">Close</button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="mt-3" *ngIf="showCommentsMap[post.id]">
-                <hr>
-                <h6>Comments</h6>
-                <ul class="list-unstyled">
-                  <li *ngFor="let comment of post.comments" class="my-3">
-                    <div class="media">
-                      <div class="media-body">
-                        <div class="d-flex justify-content-between">
-                          <h6 class="mt-0 mb-1">{{ comment.userDto?.username }}</h6>
-                          <button class="btn btn-sm btn-outline-danger"
-                            (click)="deleteComment(comment.id,post.id)">Delete</button>
-                        </div>
-                        <p>{{ comment.content }}</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-                <hr>
-                <div class="form-group">
-                  <form id="comment-form" [formGroup]="commentForm" (ngSubmit)="comment(post.id)">
-                    <div class="media">
-                      <div class="media-body">
-                        <div class="form-group">
-                          <textarea class="form-control" rows="2" placeholder="Write a comment..."
-                            formControlName="content"></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                          <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+            </div>
+            </div>
+            </div>
+            <div id ="comments" class="mt-3" *ngIf="showCommentsMap[post.id]">
+              <hr>
+              <h6>Comments</h6>
+              <ul class="list-unstyled">
+                <li *ngFor="let comment of post.comments" class="my-3">
+                  <div class="media">
+                    <div class="media-body">
+                      <div class="d-flex justify-content-between">
+                        <h6 class="mt-0 mb-1">{{ comment.userDto?.username }}</h6>
+                        <div class="dropdownComment  ml-auto"  *ngIf="authenticatedUser?.id === comment.userDto?.id">
+                          <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            ...
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <button class="dropdown-item" (click)="deleteComment(comment.id,post.id)">Delete</button>
+                          </div>
                         </div>
                       </div>
+                      <p>{{ comment.content }}</p>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </li>
+              </ul>
+              <hr>
+              <div class="form-group">
+                <form id="comment-form" [formGroup]="commentForm" (ngSubmit)="comment(post.id)">
+                  <div class="media">
+                    <div class="media-body">
+                      <div class="form-group">
+                        <textarea class="form-control" rows="2" placeholder="Write a comment..."
+                          formControlName="content"></textarea>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-          </div>
         </div>
       </div>
-    </div>
-  </div>
+
+ 
