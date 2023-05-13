@@ -36,7 +36,19 @@
   color: black;
   z-index: 9999;
 }
-
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}
 
 
 .card-body {
@@ -228,6 +240,13 @@ h5{
   max-height: 80%;
   overflow-y: auto;
   text-align: center;
+  position:relative ;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6600;
+  margin-bottom: 0.5rem;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+
 }
 .likes-modal {
   position: fixed;
@@ -240,10 +259,17 @@ h5{
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  overflow-y: scroll;
 }
-
+.likes-modal-content ul li {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .likes-modal-content h2 {
   margin-bottom: 1rem;
+  font-size: 20px;
+  border-bottom: 1px solid #ccc;
+  color: black;
 }
 
 .likes-modal-content ul {
