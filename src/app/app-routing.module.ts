@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard';
 import { AuthGuardLogin } from './auth-login-guard';
 import { EducationComponent } from './education/education.component';
-import { NightLifeComponent } from './night-life/night-life.component';
 import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.component';
 
 

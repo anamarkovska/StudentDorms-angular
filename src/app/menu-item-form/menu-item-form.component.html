@@ -1,28 +1,39 @@
+<div class = "container">
 <div class="d-flex justify-content-center align-items-center">
-<form [formGroup]="menuItemForm" (ngSubmit)="onSubmit()">
-  <label for="name">Name:</label>
-  <input type="text" id="name" formControlName="name" />
+  <form [formGroup]="menuItemForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" required />
+    <div *ngIf="menuItemForm.get('name')?.invalid && (menuItemForm.get('name')?.dirty || menuItemForm.get('name')?.touched)" class="text-danger">
+      <div *ngIf="menuItemForm.get('name')?.errors?.['required']">Name is required.</div>
+    </div>
 
-  <label for="categoryId">Category:</label>
-  <select id="categoryId" formControlName="categoryId">
-    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-  </select>
+    <label for="categoryId">Category:</label>
+    <select id="categoryId" formControlName="categoryId" required>
+      <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+    </select>
+    <div *ngIf="menuItemForm.get('categoryId')?.invalid && (menuItemForm.get('categoryId')?.dirty || menuItemForm.get('categoryId')?.touched)" class="text-danger">
+      <div *ngIf="menuItemForm.get('categoryId')?.errors?.['required']">Category is required.</div>
+    </div>
 
-  <label for="studentDormId">Student Dorm:</label>
-  <select id="studentDormId" formControlName="studentDormId">
-    <option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.dormName }}</option>
-  </select>
+    <label for="studentDormId">Student Dorm:</label>
+    <select id="studentDormId" formControlName="studentDormId" required>
+      <option *ngFor="let dorm of dorms" [value]="dorm.id">{{ dorm.dormName }}</option>
+    </select>
+    <div *ngIf="menuItemForm.get('studentDormId')?.invalid && (menuItemForm.get('studentDormId')?.dirty || menuItemForm.get('studentDormId')?.touched)" class="text-danger">
+      <div *ngIf="menuItemForm.get('studentDormId')?.errors?.['required']">Student Dorm is required.</div>
+    </div>
 
-  <label for="date">Date:</label>
-  <input type="date" id="date" formControlName="date" />
+    <label for="date">Date:</label>
+    <input type="date" id="date" formControlName="date" required />
 
-  <label for="startTime">Start Time:</label>
-  <input type="time" id="startTime" formControlName="startTime" />
+    <label for="startTime">Start Time:</label>
+    <input type="time" id="startTime" formControlName="startTime" required />
 
-  <label for="endTime">End Time:</label>
-  <input type="time" id ="endTime" formControlName="endTime" />
-  <button type="submit">Create</button>
-  <button (click)="onCancel()">Back</button>
+    <label for="endTime">End Time:</label>
+    <input type="time" id="endTime" formControlName="endTime" required />
 
-</form>
+    <button type="submit">Create</button>
+    <button (click)="onCancel()">Back</button>
+  </form>
+</div>
 </div>

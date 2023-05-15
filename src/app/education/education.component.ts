@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../post-service';
 import { PostCreationDto } from '../domain/post-creation-dto';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../domain/post';
 import { CommentService } from '../comment.service';
 import { UserService } from '../user.service';
 import { UserDto } from '../domain/user-dto';
-
+import * as $ from 'jquery';
+import { Location } from '@angular/common';
+import { CommentDto } from '../domain/comment-dto';
 
 @Component({
   selector: 'app-education',
@@ -19,6 +21,7 @@ export class EducationComponent implements OnInit {
   categoryId: number | undefined;
   posts: Post[] = [];
   commentForm: FormGroup;
+  commentEditForm: FormGroup;
   showCommentsMap: { [postId: number]: boolean } = {};
   likeCount!: number;
   likedUsernames: String[] = []
@@ -29,20 +32,29 @@ export class EducationComponent implements OnInit {
   authenticatedUser: UserDto | undefined;
   notAuthorized = false;
   showPostForm = false;
-
+  editedPostTitle: string | undefined;
+  editedPostContent: string | undefined;
+  postId: number | undefined;
+  showEditModal: boolean = false;
+  editModeMap: { [commentId: number]: boolean } = {};
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
     private route: ActivatedRoute,
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private location: Location
   ) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
       content: ['', Validators.required]
     });
     this.commentForm = this.formBuilder.group({
+      content: ['', Validators.required]
+    });
+    this.commentEditForm = this.formBuilder.group({
       content: ['', Validators.required]
     });
   }
@@ -55,8 +67,61 @@ export class EducationComponent implements OnInit {
     this.userService.getAuthenticatedUser().subscribe(user => {
       this.authenticatedUser = user;
     });
+    this.initializeEditMode();
   }
+  saveComment(commentId: number, postId: number): void {
+    const editedComment = this.commentEditForm.value;
+    editedComment.id = commentId;
+  
+    this.commentService.updateComment(editedComment).subscribe(
+      (updatedComment: CommentDto) => {
+        // Update the comment in the comments array or perform any necessary actions
+        // Reset the edit mode for the comment
+        this.editModeMap[commentId] = false;
+        this.commentEditForm.reset();
+        console.log('Comment updated successfully:', updatedComment);
+  
+        // Fetch updated comments for the specific post
+        this.commentService.getCommentsByPostId(postId).subscribe(
+          (comments: CommentDto[]) => {
+            // Update the comments array for the specific post
+            const postIndex = this.posts.findIndex(post => post.id === postId);
+            if (postIndex > -1) {
+              this.posts[postIndex].comments = comments;
+            }
+          },
+          (error: any) => {
+            console.log('Error fetching comments:', error);
+          }
+        );
+      },
+      (error: any) => {
+        console.log('Error updating comment:', error);
+      }
+    );
+  }
+  
+  cancelEdit(commentId: number): void {
+    this.editModeMap[commentId] = false;
+    this.commentEditForm.reset();
+  }  
 
+  editComment(comment: CommentDto): void {
+    this.editModeMap[comment.id] = true; // Set editMode to true for the specific comment ID// Assign the comment to a class property for reference
+    this.commentEditForm.patchValue({ content: comment.content }); // Update the form with the comment's content
+  }
+  initializeEditMode(): void {
+    this.commentService.getAllComments().subscribe(
+      (comments: CommentDto[]) => {
+        comments.forEach((comment) => {
+          this.editModeMap[comment.id] = false; // Set initial editMode to false for each comment
+        });
+      },
+      (error: any) => {
+        console.log('Error fetching comments:', error);
+      }
+    );
+  }
   // onSubmit(): void {
   //   const post: PostCreationDto = {
   //     title: this.postForm.value.title,
@@ -101,7 +166,55 @@ export class EducationComponent implements OnInit {
     }
   }
 
-
+  closeEditModal() {
+    const modalElement = document.getElementById('editPostModal');
+    const backdropElement = document.getElementsByClassName('modal-backdrop')[0];
+    if (modalElement && backdropElement) {
+      modalElement.classList.remove('show');
+      backdropElement.classList.remove('show');
+      setTimeout(() => {
+        this.showEditModal = false;
+        modalElement.style.display = 'none';
+        backdropElement.remove();
+      }, 10); // Adjust the timeout duration to match the animation duration
+    }
+  }
+  
+  
+  
+  
+  openEditModal(post: any) {
+    this.showEditModal = true;
+    this.editedPostTitle = post.title;
+    this.editedPostContent = post.content;
+    this.postId = post.id;
+  
+    setTimeout(() => {
+      const editModal = document.getElementById('editPostModal');
+      if (editModal) {
+        editModal.classList.add('show');
+      }
+    }, 0);
+  }
+  
+  
+  updatePost(): void {
+    this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).subscribe(
+      (post: any) => {
+        console.log('Post updated successfully:', post);
+        // Update the post in the component
+        const index = this.posts.findIndex(p => p.id === post.id);
+        if (index > -1) {
+          this.posts[index] = post;
+        }
+        this.closeEditModal()
+      },
+      (error: any) => {
+        console.log('Error updating post:', error);
+      }
+    );
+  }
+  
 
   comment(postId: number) {
     const comment = this.commentForm.value;
@@ -133,7 +246,6 @@ export class EducationComponent implements OnInit {
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
       this.posts = items;
-      this.posts = this.posts.reverse();
       this.posts.forEach(post => {
         this.loadLikeCount(post.id);
         this.getLikedUsernames(post.id);

@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+  
     const user = {
       username: this.loginForm.controls['username'].value,
       password: this.loginForm.controls['password'].value
@@ -40,11 +40,12 @@ export class LoginComponent implements OnInit {
     this.userService.login(user).subscribe((result) => {
       localStorage.setItem('token', result.token);
       console.log(result.token)
-      window.location.href="/menu"
+      this.router.navigate(['forum/2']);
       // Handle successful login
     }, (error) => {
+      this.loginForm.setErrors({ invalidCredentials: true });
+      console.log(error);
       // Handle login error
     });
-
   }
 }

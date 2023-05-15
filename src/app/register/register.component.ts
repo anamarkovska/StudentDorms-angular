@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   ) {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/)]],
       confirmPassword: ['', Validators.required]
     }, {
       validator: this.passwordMatchValidator
@@ -59,8 +59,10 @@ export class RegisterComponent implements OnInit {
       console.log(response);
       this.router.navigate(['/login']);
     }, error => {
+      this.registerForm.controls['username'].setErrors({ usernameExists: true });
       console.log(error);
       // show error message
     });
   }
+  
 }  

@@ -48,5 +48,9 @@ export class PostService {
   hasLikedPost(postId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/${postId}/hasLiked`);
   }
+  updatePost(id: number, title: string, content: string): Observable<Post> {
+    const url = `${this.apiUrl}/update?id=${id}&title=${title}&content=${content}`;
+    return this.http.put<Post>(url, {});
+  }
 
 }

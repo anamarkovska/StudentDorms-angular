@@ -12,9 +12,15 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
+  updateComment(comment: CommentDto): Observable<CommentDto> {
+    return this.http.put<CommentDto>(`${this.apiUrl}/update`, comment);
+  }
   addComment(postId: number, comment: CommentDto): Observable<CommentDto> {
     const url = `${this.apiUrl}/${postId}`;
     return this.http.post<CommentDto>(url, comment);
+  }
+  getAllComments(): Observable<CommentDto[]> {
+    return this.http.get<CommentDto[]>(this.apiUrl);
   }
 
   deleteComment(commentId: number): Observable<Comment> {

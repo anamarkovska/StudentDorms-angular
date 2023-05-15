@@ -15,10 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './security/AuthInterceptor';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { AppBackgroundComponent } from './app-background/app-background.component';
-import { PostListComponent } from './post-list/post-list.component';
 import { EducationComponent } from './education/education.component';
-import { NightLifeComponent } from './night-life/night-life.component';
 import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.component';
+import { Location } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,9 +28,7 @@ import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.
     RegisterComponent,
     LoginComponent,
     AppBackgroundComponent,
-    PostListComponent,
     EducationComponent,
-    NightLifeComponent,
     StudentDormListComponent,
   ],
   imports: [
@@ -46,7 +43,7 @@ import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     JwtHelperService,
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },Location
   ],
   bootstrap: [AppComponent]
 })
