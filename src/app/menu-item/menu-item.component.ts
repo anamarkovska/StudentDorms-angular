@@ -16,12 +16,12 @@ export class MenuItemComponent implements OnInit {
   menuItems: MenuItem[] = [];
   menuCategories: MenuCategory[] = [];
   studentDormId: number | undefined;
-  studentDorms : StudentDorm[] = []
+  studentDorms: StudentDorm[] = []
   selectedDormId: number = 1;
-  isAdmin:boolean=false;
+  isAdmin: boolean = false;
   authenticatedUser: UserDto | undefined;
 
-  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private userService:UserService) {}
+  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private userService: UserService) { }
   onDormClick(dormId: number): void {
     this.selectedDormId = dormId;
     this.loadMenuData();
@@ -50,25 +50,22 @@ export class MenuItemComponent implements OnInit {
       .subscribe((items: MenuItem[]) => {
         this.menuItems = items;
       });
-     }
+  }
 
 
-deleteMenuItem(id: number): void {
-  this.menuItemService.deleteMenuItem(id)
-    .subscribe(() => {
-      // remove the deleted item from the array of menu items displayed on the page
-      this.menuItems = this.menuItems.filter(item => item.id !== id);
+  deleteMenuItem(id: number): void {
+    this.menuItemService.deleteMenuItem(id)
+      .subscribe(() => {
+        this.menuItems = this.menuItems.filter(item => item.id !== id);
+      });
+  }
+
+  checkAuthorization() {
+    const userId = this.authenticatedUser!!.id;
+    this.userService.checkIfUserIsAdmin(userId!!).subscribe(isAdmin => {
+      this.isAdmin = isAdmin;
     });
-}
-
-
-checkAuthorization() {
-  const userId = this.authenticatedUser!!.id; // Assuming authenticatedUser has an 'id' property
-  this.userService.checkIfUserIsAdmin(userId!!).subscribe(isAdmin => {
-    this.isAdmin = isAdmin;
-    console.log(isAdmin)
-  });
-}
+  }
 }
 
 

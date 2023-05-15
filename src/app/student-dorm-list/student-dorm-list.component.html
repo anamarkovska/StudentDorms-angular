@@ -1,8 +1,7 @@
 <div class="container">
-<!-- <h2>Student Dorms</h2> -->
-<ul>
-  <li *ngFor="let dorm of studentDorms">
-    <a (click)="onSelect(dorm)">{{ dorm.dormName }}</a>
-  </li>
-</ul>
+  <ul>
+    <li *ngFor="let dorm of studentDorms">
+      <a (click)="onSelect(dorm)">{{ dorm.dormName }}</a>
+    </li>
+  </ul>
 </div>

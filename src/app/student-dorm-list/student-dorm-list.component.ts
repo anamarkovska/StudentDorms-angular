@@ -10,17 +10,15 @@ import { MenuItemService } from '../menu.service';
   styleUrls: ['./student-dorm-list.component.css']
 })
 export class StudentDormListComponent {
-  studentDorms : StudentDorm[] = []
+  studentDorms: StudentDorm[] = []
   ngOnInit() {
-  this.menuService.getAllStudentDorms().subscribe((studentDorms: StudentDorm[]) => {
-    this.studentDorms = studentDorms;
-  });
-}
+    this.menuService.getAllStudentDorms().subscribe((studentDorms: StudentDorm[]) => {
+      this.studentDorms = studentDorms;
+    });
+  }
   constructor(private router: Router, private menuService: MenuItemService) { }
 
   onSelect(dorm: StudentDorm) {
     this.router.navigate(['/menu/student-dorm', dorm.id]);
   }
-
-  
 }

@@ -1,5 +1,4 @@
-export interface PostCreationDto{
+export interface PostCreationDto {
   title: string;
   content: string;
-  // categoryId: number;
 }

@@ -9,13 +9,11 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-
     if (token) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`),
-        withCredentials: true // Add this line to include withCredentials property
+        withCredentials: true
       });
-      console.log('Authorization header added:', authReq.headers.get('Authorization'));
       return next.handle(authReq);
     }
     return next.handle(req);

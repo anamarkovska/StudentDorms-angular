@@ -41,8 +41,7 @@ export class MenuItemUpdateComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.id = +params.get('id')!!;
     });
-    // const id = this.route.snapshot.paramMap.get('id');
-    if(this.id) {
+    if (this.id) {
       this.menuItemService.getMenuItemById(Number(this.id)).subscribe((menuItem: MenuItem) => {
         this.menuItem = menuItem;
         this.menuItemForm = this.formBuilder.group({
@@ -77,8 +76,7 @@ export class MenuItemUpdateComponent implements OnInit {
     }
 
     this.menuItemService.updateMenuItem(menuItem.id, menuItem).subscribe(() => {
-      console.log('Menu item updated successfully!');
-      this.router.navigate(['/menu','student-dorm',menuItem.studentDormId])
+      this.router.navigate(['/menu', 'student-dorm', menuItem.studentDormId])
     }, error => {
       console.error(error);
     });

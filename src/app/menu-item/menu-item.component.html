@@ -1,53 +1,55 @@
 <div class="container">
-<nav>
-  <ul class="nav justify-content-center">
-    <li class="nav-item" *ngFor="let dorm of studentDorms" [class.active]="dorm.id === selectedDormId">
-      <a class="nav-link" (click)="selectedDormId = dorm.id!!" [routerLink]="['/menu/student-dorm', dorm.id]">{{ dorm.dormName }}</a>
-    </li>
-  </ul>
-  <div *ngIf="isAdmin">
-  <button class="create-btn">
-    <a [routerLink]="['/menu/create']" routerLinkActive="active">Create</a>
-  </button>
-  </div>
-</nav>
+  <nav>
+    <ul class="nav justify-content-center">
+      <li class="nav-item" *ngFor="let dorm of studentDorms" [class.active]="dorm.id === selectedDormId">
+        <a class="nav-link" (click)="selectedDormId = dorm.id!!" [routerLink]="['/menu/student-dorm', dorm.id]">{{
+          dorm.dormName }}</a>
+      </li>
+    </ul>
+    <div *ngIf="isAdmin">
+      <button class="create-btn">
+        <a [routerLink]="['/menu/create']" routerLinkActive="active">Create</a>
+      </button>
+    </div>
+  </nav>
 
-<div class="container d-flex flex-wrap">
-  <div *ngFor="let category of menuCategories" class="col-md-4">
-    <h2>{{ category.name }}</h2>
-    <div class="row menu-items-container" *ngFor="let item of menuItems">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.category.id === category.id">
-        <div class="menu-item">
-          <div class="card-body">
-            <h5 class="card-title item-name">{{ item.name }}</h5>
-            <div class="item-details">
+  <div class="container d-flex flex-wrap">
+    <div *ngFor="let category of menuCategories" class="col-md-4">
+      <h2>{{ category.name }}</h2>
+      <div class="row menu-items-container" *ngFor="let item of menuItems">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="item.category.id === category.id">
+          <div class="menu-item">
+            <div class="card-body">
+              <h5 class="card-title item-name">{{ item.name }}</h5>
               <div class="item-details">
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-8 col-xs-6">
-                    <div class="item-time">
-                      <div class="item-time-label">Start Time:</div>
-                      <div class="item-time-value">{{item.startTime}}</div>
+                <div class="item-details">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-6">
+                      <div class="item-time">
+                        <div class="item-time-label">Start Time:</div>
+                        <div class="item-time-value">{{item.startTime}}</div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-4 col-xs-6">
-                    <div class="item-time">
-                      <div class="item-time-label">End Time:</div>
-                      <div class="item-time-value">{{item.endTime}}</div>
+                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-6">
+                      <div class="item-time">
+                        <div class="item-time-label">End Time:</div>
+                        <div class="item-time-value">{{item.endTime}}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="item-actions">
-              <div *ngIf="isAdmin">
-              <button class="btn btn-primary" [routerLink]="['/menu/edit', item.id]" routerLinkActive="active">Edit</button>
-              <button class="btn btn-danger" (click)="deleteMenuItem(item.id)">Delete</button>
-            </div>
+              <div class="item-actions">
+                <div *ngIf="isAdmin">
+                  <button class="btn btn-primary" [routerLink]="['/menu/edit', item.id]"
+                    routerLinkActive="active">Edit</button>
+                  <button class="btn btn-danger" (click)="deleteMenuItem(item.id)">Delete</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>

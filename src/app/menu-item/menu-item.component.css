@@ -1,10 +1,13 @@
-.container{
+.container {
   padding-top: 30px;
 }
+
 .active {
-  background-color:#f39c12;;
+  background-color: #f39c12;
+  ;
   font-weight: bold;
 }
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -55,11 +58,11 @@ nav button a.active {
 
 .menu-item {
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  margin-top:10px;
+  padding: 15px;
+  margin-top: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
-  width:180%;
+  width: 180%;
 }
 
 .item-name {
@@ -121,7 +124,7 @@ nav button a.active {
   background-color: #34495e;
 }
 
-.container{
+.container {
   color: #fff;
   margin-top: 70px;
 }
@@ -133,7 +136,6 @@ nav button a.active {
   border-bottom: 1px solid #f39c12;
   padding-bottom: 5px;
 }
-
 
 .item-time {
   display: flex;

@@ -60,19 +60,9 @@ export class MenuItemFormComponent implements OnInit {
       const menuItem = this.menuItemForm.value as menuItemDto;
       menuItem.categoryId = Number(menuItem.categoryId);
       menuItem.studentDormId = Number(menuItem.studentDormId);
-
-      console.log(JSON.stringify(this.menuItemForm.value))
-      console.log(menuItem.studentDormId)
-      console.log(typeof menuItem.studentDormId);
-
       this.menuItemService.createMenuItem(menuItem).subscribe(() => {
-        // Handle success
-        console.log('Menu item created!');
-        console.log(menuItem.studentDormId)
-        this.router.navigate(['/menu','student-dorm',menuItem.studentDormId])
+        this.router.navigate(['/menu', 'student-dorm', menuItem.studentDormId])
       }, error => {
-        // Handle error
-        console.error(error);
       });
     }
   }

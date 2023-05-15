@@ -3,6 +3,7 @@ import { PostCreationDto } from './domain/post-creation-dto';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from './domain/post';
+import { CommentDto } from './domain/comment-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   createPost(post: PostCreationDto, categoryId: number): Observable<PostCreationDto> {
-    return this.http.post<PostCreationDto>(`${this.apiUrl}/${categoryId}`,post);
+    return this.http.post<PostCreationDto>(`${this.apiUrl}/${categoryId}`, post);
   }
 
   getPostsByCategory(categoryId: number): Observable<Post[]> {
@@ -52,5 +53,4 @@ export class PostService {
     const url = `${this.apiUrl}/update?id=${id}&title=${title}&content=${content}`;
     return this.http.put<Post>(url, {});
   }
-
 }

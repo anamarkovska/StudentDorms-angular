@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   loggedInUser: string | null | undefined;
 
   constructor(private menuItemService: MenuItemService, private route: ActivatedRoute,
-     private router: Router,private authService: UserService,  private cd: ChangeDetectorRef) { }
+    private router: Router, private authService: UserService, private cd: ChangeDetectorRef) { }
 
   selectedDorm: string | undefined;
 
@@ -35,7 +35,6 @@ export class NavbarComponent implements OnInit {
       .subscribe(
         (data: StudentDorm[]) => {
           this.studentDorms = data;
-          console.log(this.studentDorms);
         },
         (error: any) => {
           console.error('Error fetching student dorms:', error);
@@ -53,21 +52,15 @@ export class NavbarComponent implements OnInit {
     if (this.getAuthService().isAuthenticated()) {
       this.getAuthService().getAuthenticatedUser().subscribe((user: UserDto) => {
         this.loggedInUser = user.username;
-        console.log(this.loggedInUser);
-        // Manually trigger change detection
         setTimeout(() => {
           this.cd.detectChanges();
         }, 0);
       });
     } else {
       this.loggedInUser = null;
-      // Manually trigger change detection
       setTimeout(() => {
         this.cd.detectChanges();
       }, 0);
     }
   }
-
-
-
 }

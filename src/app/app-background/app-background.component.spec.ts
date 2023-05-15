@@ -8,9 +8,9 @@ describe('AppBackgroundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppBackgroundComponent ]
+      declarations: [AppBackgroundComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AppBackgroundComponent);
     component = fixture.componentInstance;

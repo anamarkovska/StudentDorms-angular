@@ -38,10 +38,10 @@ export class MenuItemService {
     return this.http.get<MenuItem[]>(`${this.apiUrl}/category/${categoryId}`);
   }
 
-   getMenuItemsByStudentDorm(dormId: number): Observable<MenuItem[]> {
-     return this.http.get<MenuItem[]>(`${this.apiUrl}/student-dorms/${dormId}`);
-   }
-  getMenuItemsByCategoryAndStudentDorm(categoryID:number, dormId: number): Observable<MenuItem[]> {
+  getMenuItemsByStudentDorm(dormId: number): Observable<MenuItem[]> {
+    return this.http.get<MenuItem[]>(`${this.apiUrl}/student-dorms/${dormId}`);
+  }
+  getMenuItemsByCategoryAndStudentDorm(categoryID: number, dormId: number): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(`${this.apiUrl}/student-dorms/${dormId}`);
   }
 

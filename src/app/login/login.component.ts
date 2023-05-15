@@ -10,7 +10,7 @@ import { userRequest } from '../domain/userRequest';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: userRequest = {username: '', password: ''};
+  user: userRequest = { username: '', password: '' };
   loginForm: FormGroup;
 
   constructor(
@@ -31,21 +31,17 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-  
     const user = {
       username: this.loginForm.controls['username'].value,
       password: this.loginForm.controls['password'].value
     };
-  console.log(user)
     this.userService.login(user).subscribe((result) => {
       localStorage.setItem('token', result.token);
       console.log(result.token)
       this.router.navigate(['forum/2']);
-      // Handle successful login
     }, (error) => {
       this.loginForm.setErrors({ invalidCredentials: true });
       console.log(error);
-      // Handle login error
     });
   }
 }

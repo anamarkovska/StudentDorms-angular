@@ -6,7 +6,6 @@ nav {
   left: 0;
   right: 0;
   z-index: 1000;
-
 }
 
 .navbar-brand {
@@ -24,7 +23,7 @@ ul {
 
 li {
   margin-right: 20px;
-  font-size:18px;
+  font-size: 18px;
 }
 
 a {
@@ -43,11 +42,11 @@ a:hover {
   font-weight: bold;
 }
 
-#navbarNav{
-  margin-left:400px;
+#navbarNav {
+  margin-left: 400px;
 }
 
-#loggedUser{
-  color:orange;
-  padding-left:100px;
+#loggedUser {
+  color: orange;
+  padding-left: 100px;
 }

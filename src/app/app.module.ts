@@ -15,9 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './security/AuthInterceptor';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { AppBackgroundComponent } from './app-background/app-background.component';
-import { EducationComponent } from './education/education.component';
 import { StudentDormListComponent } from './student-dorm-list/student-dorm-list.component';
 import { Location } from '@angular/common';
+import { ForumComponent } from './forum/forum.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +28,7 @@ import { Location } from '@angular/common';
     RegisterComponent,
     LoginComponent,
     AppBackgroundComponent,
-    EducationComponent,
+    ForumComponent,
     StudentDormListComponent,
   ],
   imports: [
@@ -39,11 +39,11 @@ import { Location } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
   ],
-  
+
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     JwtHelperService,
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },Location
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, Location
   ],
   bootstrap: [AppComponent]
 })

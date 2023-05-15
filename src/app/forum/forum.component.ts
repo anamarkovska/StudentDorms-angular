@@ -12,11 +12,11 @@ import { Location } from '@angular/common';
 import { CommentDto } from '../domain/comment-dto';
 
 @Component({
-  selector: 'app-education',
-  templateUrl: './education.component.html',
-  styleUrls: ['./education.component.css']
+  selector: 'app-forum',
+  templateUrl: './forum.component.html',
+  styleUrls: ['./forum.component.css']
 })
-export class EducationComponent implements OnInit {
+export class ForumComponent implements OnInit {
   postForm: FormGroup;
   categoryId: number | undefined;
   posts: Post[] = [];
@@ -37,7 +37,7 @@ export class EducationComponent implements OnInit {
   postId: number | undefined;
   showEditModal: boolean = false;
   editModeMap: { [commentId: number]: boolean } = {};
-  isAdmin: boolean=false;
+  isAdmin: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -76,13 +76,8 @@ export class EducationComponent implements OnInit {
 
     this.commentService.updateComment(editedComment).subscribe(
       (updatedComment: CommentDto) => {
-        // Update the comment in the comments array or perform any necessary actions
-        // Reset the edit mode for the comment
         this.editModeMap[commentId] = false;
         this.commentEditForm.reset();
-        console.log('Comment updated successfully:', updatedComment);
-
-        // Fetch updated comments for the specific post
         this.commentService.getCommentsByPostId(postId).subscribe(
           (comments: CommentDto[]) => {
 
@@ -108,14 +103,14 @@ export class EducationComponent implements OnInit {
   }
 
   editComment(comment: CommentDto): void {
-    this.editModeMap[comment.id] = true; // Set editMode to true for the specific comment ID// Assign the comment to a class property for reference
-    this.commentEditForm.patchValue({ content: comment.content }); // Update the form with the comment's content
+    this.editModeMap[comment.id] = true;
+    this.commentEditForm.patchValue({ content: comment.content });
   }
   initializeEditMode(): void {
     this.commentService.getAllComments().subscribe(
       (comments: CommentDto[]) => {
         comments.forEach((comment) => {
-          this.editModeMap[comment.id] = false; // Set initial editMode to false for each comment
+          this.editModeMap[comment.id] = false;
         });
       },
       (error: any) => {
@@ -123,38 +118,15 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-  // onSubmit(): void {
-  //   const post: PostCreationDto = {
-  //     title: this.postForm.value.title,
-  //     content: this.postForm.value.content,
-  //   };
-  //   console.log(this.categoryId);
-  //   if (this.categoryId) {
-  //     this.postService.createPost(post, this.categoryId).subscribe(
-  //       () => {
-  //         console.log('Post created!');
-  //         this.getPostsByCategory();
-  //         this.postForm.reset();
-  //       },
-  //       (error) => {
-  //         console.error(error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('Category ID is undefined');
-  //   }
-  // }
 
   onSubmit(): void {
     const post: PostCreationDto = {
       title: this.postForm.value.title,
       content: this.postForm.value.content,
     };
-    console.log(this.categoryId);
     if (this.categoryId) {
       this.postService.createPost(post, this.categoryId).subscribe(
         () => {
-          console.log('Post created!');
           this.getPostsByCategory();
           this.postForm.reset();
         },
@@ -177,12 +149,9 @@ export class EducationComponent implements OnInit {
         this.showEditModal = false;
         modalElement.style.display = 'none';
         backdropElement.remove();
-      }, 10); // Adjust the timeout duration to match the animation duration
+      }, 10);
     }
   }
-
-
-
 
   openEditModal(post: any) {
     this.showEditModal = true;
@@ -202,12 +171,7 @@ export class EducationComponent implements OnInit {
   updatePost(): void {
     this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).subscribe(
       (post: any) => {
-        console.log('Post updated successfully:', post);
-        // Update the post in the component
         const index = this.posts.findIndex(p => p.id === post.id);
-        // if (index > -1) {
-        //   this.posts[index] = post;
-        // }
         window.location.reload()
         this.closeEditModal()
       },
@@ -222,7 +186,6 @@ export class EducationComponent implements OnInit {
     const comment = this.commentForm.value;
     this.commentService.addComment(postId, comment).subscribe(
       (newComment) => {
-        console.log('Comment added:', newComment);
         this.commentForm.reset();
         this.showCommentsMap[postId] = true;
         this.commentService.getCommentsByPostId(postId).subscribe(
@@ -242,9 +205,6 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-
-
-
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
       this.posts = items.reverse();
@@ -320,11 +280,9 @@ export class EducationComponent implements OnInit {
     });
   }
 
-
   deleteComment(commentId: number, postId: number): void {
     this.commentService.deleteComment(commentId).subscribe(
       response => {
-        console.log('Comment deleted successfully!');
         const post = this.posts.find(p => p.id === postId);
         const deletedCommentIndex = post!!.comments.findIndex(c => c.id === commentId);
         if (deletedCommentIndex > -1) {
@@ -337,7 +295,6 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-
 
   deletePost(postId: number): void {
     this.postService.deletePost(postId).subscribe(
@@ -358,9 +315,6 @@ export class EducationComponent implements OnInit {
   closePostForm(): void {
     this.showPostForm = false;
   }
-
-
-
 }
 
 

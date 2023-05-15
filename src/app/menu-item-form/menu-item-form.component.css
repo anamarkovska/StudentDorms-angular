@@ -1,6 +1,7 @@
-.container{
+.container {
   padding-top: 100px;
 }
+
 form {
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -16,7 +17,6 @@ form {
   align-items: center;
   height: 100vh;
 }
-
 
 input,
 select {
@@ -58,7 +58,7 @@ button {
   margin-top: 10px;
   font-size: 16px;
   cursor: pointer;
-  margin:5px;
+  margin: 5px;
 }
 
 button:hover {

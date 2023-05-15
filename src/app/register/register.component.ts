@@ -10,7 +10,7 @@ import { userRequest } from '../domain/userRequest';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  user: userRequest = {username: '', password: ''};
+  user: userRequest = { username: '', password: '' };
   registerForm: FormGroup;
 
   constructor(
@@ -33,36 +33,33 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(control: AbstractControl) {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
-  
+
     if (password!!.value !== confirmPassword!!.value) {
       confirmPassword!!.setErrors({ passwordMismatch: true });
-      console.log("mismatch");
       return { passwordMismatch: true };
     } else {
       confirmPassword!!.setErrors(null);
       return null;
     }
   }
-  
+
 
   onSubmit() {
     if (this.registerForm.invalid) {
       return;
     }
-  
+
     const user = {
       username: this.registerForm.controls['username'].value,
       password: this.registerForm.controls['password'].value
     };
-  
+
     this.userService.register(user).subscribe(response => {
-      console.log(response);
       this.router.navigate(['/login']);
     }, error => {
       this.registerForm.controls['username'].setErrors({ usernameExists: true });
       console.log(error);
-      // show error message
     });
   }
-  
+
 }  

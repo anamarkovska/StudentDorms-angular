@@ -1,22 +1,21 @@
 .background {
-    background-image: url("https://makfax.com.mk/wp-content/uploads/2017/06/Studentski-dom-Goce-Delcev.jpg");
-    background-size: cover;
-    background-position: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    filter: blur(2px);
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
-  }
-  
+  background-image: url("https://makfax.com.mk/wp-content/uploads/2017/06/Studentski-dom-Goce-Delcev.jpg");
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  filter: blur(2px);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
