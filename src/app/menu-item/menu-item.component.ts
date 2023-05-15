@@ -4,6 +4,8 @@ import { MenuCategory } from '../domain/menu-category';
 import { MenuItem } from '../domain/menu-item';
 import { MenuItemService } from '../menu.service';
 import { StudentDorm } from '../domain/student-dorm';
+import { UserService } from '../user.service';
+import { UserDto } from '../domain/user-dto';
 
 @Component({
   selector: 'app-menu-item',
@@ -16,8 +18,10 @@ export class MenuItemComponent implements OnInit {
   studentDormId: number | undefined;
   studentDorms : StudentDorm[] = []
   selectedDormId: number = 1;
+  isAdmin:boolean=false;
+  authenticatedUser: UserDto | undefined;
 
-  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute) {}
+  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private userService:UserService) {}
   onDormClick(dormId: number): void {
     this.selectedDormId = dormId;
     this.loadMenuData();
@@ -26,6 +30,7 @@ export class MenuItemComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.selectedDormId = +params.get('id')!!;
       this.loadMenuData();
+
     });
     this.menuItemService.getAllCategories().subscribe((categories: MenuCategory[]) => {
       this.menuCategories = categories;
@@ -33,6 +38,11 @@ export class MenuItemComponent implements OnInit {
     this.menuItemService.getAllStudentDorms().subscribe((studentDorms: StudentDorm[]) => {
       this.studentDorms = studentDorms;
     });
+    this.userService.getAuthenticatedUser().subscribe(user => {
+      this.authenticatedUser = user;
+      this.checkAuthorization();
+    });
+
   }
 
   loadMenuData(): void {
@@ -42,61 +52,25 @@ export class MenuItemComponent implements OnInit {
       });
      }
 
-  
+
 deleteMenuItem(id: number): void {
   this.menuItemService.deleteMenuItem(id)
     .subscribe(() => {
       // remove the deleted item from the array of menu items displayed on the page
       this.menuItems = this.menuItems.filter(item => item.id !== id);
     });
-}  
-} 
-    // ngOnInit() {
-    //   // this.getAllMenuItems();
-    //   this.getMenuCategories();
-    //   this.route.paramMap.subscribe(params=>{
-    //     this.studentDormId=+params.get('id')!!;
-    //   })
-    //   this.loadMenuData()
-    // }
-  
-    // loadMenuData(): void {
-    //   const idNumber = +this.studentDormId!!;
-    //   this.menuItemService.getAllMenuItems().subscribe((items: any[]) => {
-    //     this.filteredMenuItems = items.filter(item => item.studentDorm.id === idNumber);
-    //     console.log(idNumber)
-    //   });
-    // }
-  
-    // getAllMenuItems() {
-    //   this.menuItemService.getAllMenuItems()
-    //     .subscribe(
-    //       (data: MenuItem[]) => {
-    //         this.menuItems = data;
-    //         console.log(this.menuItems)
-    //       },
-    //       (error: any) => {
-    //         console.error('Error fetching menu items:', error);
-    //       }
-    //     );
-    // }
-  
-    // getMenuCategories(){
-    //   this.menuItemService.getAllCategories()
-    //     .subscribe((menuCategories: MenuCategory[] | undefined) => {
-    //       this.menuCategories = menuCategories;
-    //       console.log(this.menuCategories)
-    //     });
-    // }
-  
-    // getMenuItemsByCategory(category: number): any {
-    //   this.menuItemService.getMenuItemsByCategory(category)
-    //     .subscribe((menuItems: MenuItem[]) => {
-    //       this.menuItems = menuItems;
-  
-    //     });
-    // }
-  
-  
-  
+}
+
+
+checkAuthorization() {
+  const userId = this.authenticatedUser!!.id; // Assuming authenticatedUser has an 'id' property
+  this.userService.checkIfUserIsAdmin(userId!!).subscribe(isAdmin => {
+    this.isAdmin = isAdmin;
+    console.log(isAdmin)
+  });
+}
+}
+
+
+
 

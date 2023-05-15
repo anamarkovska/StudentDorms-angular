@@ -37,6 +37,7 @@ export class EducationComponent implements OnInit {
   postId: number | undefined;
   showEditModal: boolean = false;
   editModeMap: { [commentId: number]: boolean } = {};
+  isAdmin: boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,7 +73,7 @@ export class EducationComponent implements OnInit {
   saveComment(commentId: number, postId: number): void {
     const editedComment = this.commentEditForm.value;
     editedComment.id = commentId;
-  
+
     this.commentService.updateComment(editedComment).subscribe(
       (updatedComment: CommentDto) => {
         // Update the comment in the comments array or perform any necessary actions
@@ -80,11 +81,11 @@ export class EducationComponent implements OnInit {
         this.editModeMap[commentId] = false;
         this.commentEditForm.reset();
         console.log('Comment updated successfully:', updatedComment);
-  
+
         // Fetch updated comments for the specific post
         this.commentService.getCommentsByPostId(postId).subscribe(
           (comments: CommentDto[]) => {
-            // Update the comments array for the specific post
+
             const postIndex = this.posts.findIndex(post => post.id === postId);
             if (postIndex > -1) {
               this.posts[postIndex].comments = comments;
@@ -100,11 +101,11 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-  
+
   cancelEdit(commentId: number): void {
     this.editModeMap[commentId] = false;
     this.commentEditForm.reset();
-  }  
+  }
 
   editComment(comment: CommentDto): void {
     this.editModeMap[comment.id] = true; // Set editMode to true for the specific comment ID// Assign the comment to a class property for reference
@@ -179,16 +180,16 @@ export class EducationComponent implements OnInit {
       }, 10); // Adjust the timeout duration to match the animation duration
     }
   }
-  
-  
-  
-  
+
+
+
+
   openEditModal(post: any) {
     this.showEditModal = true;
     this.editedPostTitle = post.title;
     this.editedPostContent = post.content;
     this.postId = post.id;
-  
+
     setTimeout(() => {
       const editModal = document.getElementById('editPostModal');
       if (editModal) {
@@ -196,17 +197,18 @@ export class EducationComponent implements OnInit {
       }
     }, 0);
   }
-  
-  
+
+
   updatePost(): void {
     this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).subscribe(
       (post: any) => {
         console.log('Post updated successfully:', post);
         // Update the post in the component
         const index = this.posts.findIndex(p => p.id === post.id);
-        if (index > -1) {
-          this.posts[index] = post;
-        }
+        // if (index > -1) {
+        //   this.posts[index] = post;
+        // }
+        window.location.reload()
         this.closeEditModal()
       },
       (error: any) => {
@@ -214,7 +216,7 @@ export class EducationComponent implements OnInit {
       }
     );
   }
-  
+
 
   comment(postId: number) {
     const comment = this.commentForm.value;
@@ -245,7 +247,7 @@ export class EducationComponent implements OnInit {
 
   getPostsByCategory(): void {
     this.postService.getPostsByCategory(this.categoryId!!).subscribe((items: Post[]) => {
-      this.posts = items;
+      this.posts = items.reverse();
       this.posts.forEach(post => {
         this.loadLikeCount(post.id);
         this.getLikedUsernames(post.id);

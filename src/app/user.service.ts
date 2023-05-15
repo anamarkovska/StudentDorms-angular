@@ -37,5 +37,10 @@ export class UserService {
     return this.http.get<UserDto>(`${this.apiUrl}/authenticated-user`);
   }
 
+  checkIfUserIsAdmin(userId: number): Observable<boolean> {
+    const url = `${this.apiUrl}/${userId}/isAdmin`;
+    return this.http.get<boolean>(url);
+  }
+
 }
 

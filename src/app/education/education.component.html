@@ -28,13 +28,17 @@
       <div *ngFor="let post of posts">
         <div id="title" class="d-flex justify-content-between align-items-center mb-3">
           <h5>{{ post.title }}</h5>
-          <p id="username" class="mb-0"><a [routerLink]="['/users', post.userDto?.username]" style="color: orange">{{
-              post.userDto?.username }}</a></p>
+          <!-- <p id="username" class="mb-0"><a [routerLink]="['/users', post.userDto?.username]" style="color: orange">{{
+              post.userDto?.username }}</a></p> -->
         </div>
         <div class="card card-custom mb-3">
           <div class="card-body">
             <!-- <h5 class="card-title">{{ post.title }}</h5> -->
-            <p class="post-date">{{post.createdAt | date:'MMM d, y, h:mm a'}}</p>
+            <div class="post-details">
+              <p id="username" class="mb-0"><a [routerLink]="['/users', post.userDto?.username]" style="color: orange">{{ post.userDto?.username }}</a></p>
+              <p class="post-date">{{ post.createdAt | date:'MMM d, y, h:mm a' }}</p>
+            </div>
+
             <p class="card-text">{{ post.content }}</p>
             <!-- <p class="card-text">Author: {{ post.userDto?.username }}</p> -->
             <div class="dropdown" ml-auto *ngIf="authenticatedUser?.id === post.userDto?.id">
@@ -43,10 +47,10 @@
                 ...
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-               
+
                 <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editPostModal"
-                (click)="openEditModal(post)">Edit Post</button>
-              
+                (click)="openEditModal(post)">Edit</button>
+
                 <button class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
               </div>
             </div>
@@ -96,7 +100,7 @@
                         ...
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button type="button" class="btn btn-primary" (click)="editComment(comment)">Edit</button>
+                        <button class="dropdown-item"(click)="editComment(comment)">Edit</button>
                         <button class="dropdown-item" (click)="deleteComment(comment.id,post.id)">Delete</button>
                       </div>
                     </div>
@@ -132,12 +136,12 @@
             </form>
           </div>
         </div>
-      </div>   
+      </div>
       <div class="modal" id="editPostModal" [class.show]="showEditModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <h5 class="modal-title" id="editPostModalLabel">Edit</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

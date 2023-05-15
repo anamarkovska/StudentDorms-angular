@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StudentDorm } from '../domain/student-dorm';
 import { MenuItemService } from '../menu.service';
@@ -16,7 +16,8 @@ export class NavbarComponent implements OnInit {
   studentDorms: StudentDorm[] = [];
   loggedInUser: string | null | undefined;
 
-  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute, private router: Router,private authService: UserService) { }
+  constructor(private menuItemService: MenuItemService, private route: ActivatedRoute,
+     private router: Router,private authService: UserService,  private cd: ChangeDetectorRef) { }
 
   selectedDorm: string | undefined;
 
@@ -53,9 +54,20 @@ export class NavbarComponent implements OnInit {
       this.getAuthService().getAuthenticatedUser().subscribe((user: UserDto) => {
         this.loggedInUser = user.username;
         console.log(this.loggedInUser);
+        // Manually trigger change detection
+        setTimeout(() => {
+          this.cd.detectChanges();
+        }, 0);
       });
     } else {
       this.loggedInUser = null;
+      // Manually trigger change detection
+      setTimeout(() => {
+        this.cd.detectChanges();
+      }, 0);
     }
   }
+
+
+
 }

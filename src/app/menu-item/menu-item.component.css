@@ -135,3 +135,15 @@ nav button a.active {
 }
 
 
+.item-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-time-label {
+  font-weight: bold;
+}
+
+.item-time-value {
+  margin-left: auto;
+}

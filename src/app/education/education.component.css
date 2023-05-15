@@ -29,6 +29,16 @@
 .fa-heart {
   color: red;
 }
+.post-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-date {
+  margin-left: auto;
+}
+
 
 
 .dropdown {
@@ -383,9 +393,3 @@ h5{
   color: #999;
   margin-top: 0.5rem;
 }
-
-
-
-
-
-

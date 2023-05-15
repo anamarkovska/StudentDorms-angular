@@ -5,9 +5,11 @@
       <a class="nav-link" (click)="selectedDormId = dorm.id!!" [routerLink]="['/menu/student-dorm', dorm.id]">{{ dorm.dormName }}</a>
     </li>
   </ul>
+  <div *ngIf="isAdmin">
   <button class="create-btn">
     <a [routerLink]="['/menu/create']" routerLinkActive="active">Create</a>
   </button>
+  </div>
 </nav>
 
 <div class="container d-flex flex-wrap">
@@ -37,8 +39,10 @@
               </div>
             </div>
             <div class="item-actions">
+              <div *ngIf="isAdmin">
               <button class="btn btn-primary" [routerLink]="['/menu/edit', item.id]" routerLinkActive="active">Edit</button>
               <button class="btn btn-danger" (click)="deleteMenuItem(item.id)">Delete</button>
+            </div>
             </div>
           </div>
         </div>
