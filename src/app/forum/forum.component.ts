@@ -10,6 +10,7 @@ import { UserDto } from '../domain/user-dto';
 import * as $ from 'jquery';
 import { Location } from '@angular/common';
 import { CommentDto } from '../domain/comment-dto';
+import { flatMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-forum',
@@ -140,17 +141,7 @@ export class ForumComponent implements OnInit {
   }
 
   closeEditModal() {
-    const modalElement = document.getElementById('editPostModal');
-    const backdropElement = document.getElementsByClassName('modal-backdrop')[0];
-    if (modalElement && backdropElement) {
-      modalElement.classList.remove('show');
-      backdropElement.classList.remove('show');
-      setTimeout(() => {
-        this.showEditModal = false;
-        modalElement.style.display = 'none';
-        backdropElement.remove();
-      }, 10);
-    }
+    this.showEditModal=false
   }
 
   openEditModal(post: any) {
@@ -169,16 +160,23 @@ export class ForumComponent implements OnInit {
 
 
   updatePost(): void {
-    this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).subscribe(
-      (post: any) => {
-        const index = this.posts.findIndex(p => p.id === post.id);
-        window.location.reload()
-        this.closeEditModal()
-      },
-      (error: any) => {
-        console.log('Error updating post:', error);
-      }
-    );
+    // this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).subscribe(
+    //   (post: any) => {
+    //     const index = this.posts.findIndex(p => p.id === post.id);
+        
+    //     window.location.reload()
+    //     this.closeEditModal()
+    //   },
+    //   (error: any) => {
+    //     console.log('Error updating post:', error);
+    //   }
+    // );
+    this.postService.updatePost(this.postId!!, this.editedPostTitle!!, this.editedPostContent!!).pipe(
+      flatMap(res=> {
+        this.getPostsByCategory()
+        //this.closeEditModal()
+      return of(res)})).subscribe()
+      this.showEditModal=false
   }
 
 

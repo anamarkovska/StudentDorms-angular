@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(user).subscribe((result) => {
       localStorage.setItem('token', result.token);
       console.log(result.token)
-      this.router.navigate(['forum/2']);
+      this.router.navigate(['/menu']);
     }, (error) => {
       this.loginForm.setErrors({ invalidCredentials: true });
       console.log(error);

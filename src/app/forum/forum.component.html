@@ -41,10 +41,8 @@
                 ...
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                 <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editPostModal"
                   (click)="openEditModal(post)">Edit</button>
-
                 <button class="dropdown-item" (click)="deletePost(post.id)">Delete</button>
               </div>
             </div>
@@ -132,8 +130,8 @@
           </div>
         </div>
       </div>
-      <div class="modal" id="editPostModal" [class.show]="showEditModal" tabindex="-1" role="dialog"
-        aria-labelledby="editPostModalLabel" aria-hidden="true">
+      <div class="modal" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
