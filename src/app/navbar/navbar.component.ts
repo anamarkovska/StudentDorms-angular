@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StudentDorm } from '../domain/student-dorm';
 import { MenuItemService } from '../menu.service';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { UserDto } from '../domain/user-dto';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +17,7 @@ export class NavbarComponent implements OnInit {
   loggedInUser: string | null | undefined;
 
   constructor(private menuItemService: MenuItemService, private route: ActivatedRoute,
-    private router: Router, private authService: UserService, private cd: ChangeDetectorRef, location: Location) { }
+    private router: Router, private authService: UserService, private cd: ChangeDetectorRef) { }
 
   selectedDorm: string | undefined;
 
@@ -53,9 +52,16 @@ export class NavbarComponent implements OnInit {
     if (this.getAuthService().isAuthenticated()) {
       this.getAuthService().getAuthenticatedUser().subscribe((user: UserDto) => {
         this.loggedInUser = user.username;
- 
+        setTimeout(() => {
+          this.cd.detectChanges();
+        }, 0);
       });
+    } else {
+      this.loggedInUser = null;
+      setTimeout(() => {
+        this.cd.detectChanges();
+      }, 0);
     }
+    
   }
-  
 }
